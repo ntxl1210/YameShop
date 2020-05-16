@@ -3,19 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package yameshop;
+package database;
 
 /**
  *
  * @author NeedNguyen
  */
-public class YameShop {
-
-    /**
-     * @param args the command line arguments
-     */
-   public static void main(String[] args) {
-      
-    }
+public class clsConnectDB {
     
 }
