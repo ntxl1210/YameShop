@@ -32,7 +32,6 @@ public class frmDangNhap extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
-        btnDangKy = new javax.swing.JButton();
         ckGhiNho = new java.awt.Checkbox();
         btnDangNhap1 = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
@@ -53,15 +52,6 @@ public class frmDangNhap extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Mật khẩu");
-
-        btnDangKy.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnDangKy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register.png"))); // NOI18N
-        btnDangKy.setText("Đăng ký");
-        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangKyActionPerformed(evt);
-            }
-        });
 
         ckGhiNho.setFont(new java.awt.Font("Dialog", 2, 14)); // NOI18N
         ckGhiNho.setForeground(new java.awt.Color(51, 51, 255));
@@ -98,17 +88,15 @@ public class frmDangNhap extends javax.swing.JFrame {
                                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(txtUserNameLayout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(txtUserNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(txtUserNameLayout.createSequentialGroup()
-                                        .addComponent(btnDangKy)
-                                        .addGap(47, 47, 47)
-                                        .addComponent(btnDangNhap1))
-                                    .addGroup(txtUserNameLayout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(32, 32, 32)))
                 .addContainerGap())
+            .addGroup(txtUserNameLayout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addComponent(btnDangNhap1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         txtUserNameLayout.setVerticalGroup(
             txtUserNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,9 +114,7 @@ public class frmDangNhap extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(ckGhiNho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(txtUserNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDangKy, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDangNhap1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDangNhap1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
 
@@ -152,10 +138,6 @@ public class frmDangNhap extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDangKyActionPerformed
 
     private void btnDangNhap1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhap1ActionPerformed
         // TODO add your handling code here:
@@ -198,7 +180,6 @@ public class frmDangNhap extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDangKy;
     private javax.swing.JButton btnDangNhap1;
     private java.awt.Checkbox ckGhiNho;
     private javax.swing.JLabel jLabel1;
