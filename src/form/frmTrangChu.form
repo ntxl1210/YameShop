@@ -27,21 +27,23 @@
       <Group type="103" groupAlignment="1" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTabbedPane1" min="-2" pref="1291" max="-2" attributes="0"/>
-                  <Component id="jPanel3" max="32767" attributes="0"/>
-              </Group>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" min="-2" pref="1291" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" min="-2" pref="537" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" min="-2" pref="567" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -58,7 +60,6 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="66" red="33" type="rgb"/>
         </Property>
-        <Property name="tabPlacement" type="int" value="2"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="1"/>
         </Property>
@@ -117,7 +118,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="784" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="861" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -154,7 +155,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane2" pref="470" max="32767" attributes="0"/>
+                              <Component id="jScrollPane2" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -389,7 +390,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="762" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="839" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -426,7 +427,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane1" pref="470" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -654,7 +655,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" pref="763" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" pref="840" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -688,7 +689,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane4" pref="470" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -874,7 +875,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace pref="118" max="32767" attributes="0"/>
+                                  <EmptySpace pref="195" max="32767" attributes="0"/>
                                   <Component id="txtTimKiemSP" min="-2" pref="295" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnTimSanPham" min="-2" max="-2" attributes="0"/>
@@ -902,7 +903,7 @@
                                       <Component id="txtTimKiemSP" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane3" pref="439" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="445" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -1395,11 +1396,6 @@
                           </Border>
                         </Property>
                       </Properties>
-                      <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                          <ComponentRef name="null"/>
-                        </Property>
-                      </AccessibilityProperties>
 
                       <Layout>
                         <DimensionLayout dim="0">
@@ -1636,7 +1632,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane8" pref="680" max="32767" attributes="0"/>
+                              <Component id="jScrollPane8" pref="757" max="32767" attributes="0"/>
                               <Component id="jScrollPane9" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1697,28 +1693,24 @@
                                   <Component id="txtMaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
                                   <Component id="btnSuaCTHD" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="txtDonGiaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="txtMaSPCTHD" min="-2" pref="100" max="-2" attributes="0"/>
-                                          </Group>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="txtDonGiaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="txtMaSPCTHD" min="-2" pref="100" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="btnXoaCTHD" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnXuatCTHD" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -1911,7 +1903,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="38" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2179,7 +2171,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane11" alignment="0" pref="470" max="32767" attributes="0"/>
+                              <Component id="jScrollPane11" alignment="0" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -2436,7 +2428,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane5" pref="743" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" pref="820" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -2473,7 +2465,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane5" pref="470" max="32767" attributes="0"/>
+                              <Component id="jScrollPane5" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -2758,7 +2750,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane6" pref="775" max="32767" attributes="0"/>
+                          <Component id="jScrollPane6" pref="852" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -2794,7 +2786,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="77" max="32767" attributes="0"/>
+                          <EmptySpace pref="83" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -3082,12 +3074,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="1200" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1277" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="500" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="506" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -3104,12 +3096,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="1200" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1277" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="500" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="506" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -3163,10 +3155,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel9" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="btnTimSP" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
@@ -3280,7 +3269,7 @@
                                   <Component id="btnThemKhachHang" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                                   <Component id="btnTimKH" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="21" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtTenSP" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -3310,7 +3299,7 @@
                                   <Component id="txtTongTien" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel46" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3429,7 +3418,7 @@
                                           <Component id="txtMaSP" min="-2" pref="98" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="9" max="32767" attributes="0"/>
+                                  <EmptySpace pref="80" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel41" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel42" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -3460,29 +3449,33 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtMaSP" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtDonGia" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtMaSP3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtDonGia" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtMaSP" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtMaSP2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtThanhTien" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtMaSP4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                              <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txtThanhTien" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtMaSP2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -3710,7 +3703,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="329" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="519" max="32767" attributes="0"/>
                   <Component id="btnDangKyTK" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLayMatKhau" min="-2" max="-2" attributes="0"/>
