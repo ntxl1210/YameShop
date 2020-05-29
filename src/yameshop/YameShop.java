@@ -9,13 +9,21 @@ package yameshop;
  *
  * @author NeedNguyen
  */
+import form.frmDangNhap;
+import form.frmTrangChu;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class YameShop {
 
-    /**
-     * @param args the command line arguments
-     */
-   public static void main(String[] args) {
-      
+    public static  form.frmTrangChu frmTC=new frmTrangChu();
+    public static database.clsConnectDB connection = new  database.clsConnectDB ();
+
+    public static void main(String[] args) {
+       form.frmDangNhap frmDN= new   form.frmDangNhap();
+  
+       frmDN.show();
     }
     
 }
