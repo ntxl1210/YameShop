@@ -5,6 +5,7 @@
  */
 package yameshop;
 
+import GlobalData.GlobalData;
 /**
  *
  * @author NeedNguyen
@@ -17,13 +18,23 @@ import java.util.Date;
 
 public class YameShop {
 
-    public static  form.frmTrangChu frmTC=new frmTrangChu();
+//    public static  form.frmTrangChu frmTC=new frmTrangChu();
     public static database.clsConnectDB connection = new  database.clsConnectDB ();
 
     public static void main(String[] args) {
-       form.frmDangNhap frmDN= new   form.frmDangNhap();
-  
-       frmDN.show();
+       if(GlobalData.getNguoiDung() != null)
+       {
+            frmTrangChu frmCT = new frmTrangChu();
+            frmCT.pack();
+            frmCT.show();
+       }
+       else
+       {
+            frmDangNhap frmDN = new frmDangNhap();
+            frmDN.pack();
+            frmDN.show();
+       }
+       
     }
     
 }

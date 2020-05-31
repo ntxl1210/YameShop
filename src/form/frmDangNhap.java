@@ -5,6 +5,17 @@
  */
 package form;
 
+import database.clsConnectDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import SHAHashing.SHAHashing;
+import GlobalData.GlobalData;
+import NguoiDung.NguoiDung;
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author NeedNguyen
@@ -66,7 +77,11 @@ public class frmDangNhap extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setText("jPasswordField1");
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout txtUserNameLayout = new javax.swing.GroupLayout(txtUserName);
         txtUserName.setLayout(txtUserNameLayout);
@@ -141,8 +156,72 @@ public class frmDangNhap extends javax.swing.JFrame {
 
     private void btnDangNhap1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhap1ActionPerformed
         // TODO add your handling code here:
+        dangNhap();
     }//GEN-LAST:event_btnDangNhap1ActionPerformed
 
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            dangNhap();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void dangNhap(){
+        String taiKhoan = txtUsername.getText();
+        String matKhau = String.valueOf(txtPassword.getPassword());
+        String matKhauDaMaHoa = SHAHashing.getSHAHash(matKhau);
+        
+        if(taiKhoan.equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên đăng nhập!");
+        }
+        else if(matKhau.equals(""))
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+        }
+        else
+        {
+            PreparedStatement ps = null;
+            Connection conn = null;
+            try 
+            {
+                conn = clsConnectDB.getJDBCConnection();
+                conn.setCatalog("Yame Shop");
+                String sql = "SELECT  * FROM nguoi_dung WHERE tai_khoan = ? AND mat_khau = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, taiKhoan);
+                ps.setString(2, matKhauDaMaHoa);
+                
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next())
+                {
+                    boolean ghiNhoDangNhap = false;
+                    if(ckGhiNho.getState())
+                    {
+                        ghiNhoDangNhap = true;
+                    }
+                    
+                    NguoiDung nguoiDung = new NguoiDung(rs.getInt("id"), rs.getString("tai_khoan"), rs.getString("mat_khau"), rs.getString("ten"), 
+                            rs.getString("email"), rs.getInt("ma_cv"), rs.getInt("sdt"), rs.getString("dia_chi"), rs.getString("gioi_tinh"), rs.getInt("luong"), ghiNhoDangNhap);
+            
+                    GlobalData.setNguoiDung(nguoiDung);
+                    
+                    form.frmTrangChu frmTC = new   form.frmTrangChu();
+                    this.hide();
+                    frmTC.show();
+                    JOptionPane.showMessageDialog(this, "Xin chào " + nguoiDung.getTen() + ", bạn đã đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } 
+    }
     /**
      * @param args the command line arguments
      */

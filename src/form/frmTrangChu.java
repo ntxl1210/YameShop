@@ -5,6 +5,8 @@
  */
 package form;
 
+import GlobalData.GlobalData;
+import NguoiDung.NguoiDung;
 /**
  *
  * @author NeedNguyen
@@ -16,6 +18,12 @@ public class frmTrangChu extends javax.swing.JFrame {
      */
     public frmTrangChu() {
         initComponents();
+        NguoiDung nguoiDung = GlobalData.getNguoiDung();
+        if(nguoiDung.getMaCV() != 1)
+        {
+            for(int i = 1; i < jTabbedPane1.getTabCount()-1; i++)
+                jTabbedPane1.setEnabledAt(i, false);
+        }
     }
 
     /**

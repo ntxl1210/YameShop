@@ -36,8 +36,23 @@ public class clsConnectDB {
         }
     }
     
+    public static Connection getJDBCConnection() throws SQLException {
+         String connectionString = "jdbc:sqlserver://localhost:1433;\\SQL2019" 
+            + "databaseName=Yame Shop;user=sa;password=123;";
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            return DriverManager.getConnection(connectionString);
+        } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
     //Thực thi câu lệnh SELECT
-    public ResultSet ExcuteQueryGetTable(String cauTruyVanSQL){
+    public ResultSet excuteQueryGetTable(String cauTruyVanSQL){
         try {
             Statement stmt = conn.createStatement();           
             ResultSet rs = stmt.executeQuery(cauTruyVanSQL);
@@ -49,7 +64,7 @@ public class clsConnectDB {
         return null;
     }
     //Thực thi INSERT, DELETE, UPDATE
-    public void ExcuteQueryUpdateDB(String cauTruyVanSQL){
+    public void excuteQueryUpdateDB(String cauTruyVanSQL){
        
         try {
             Statement stmt = conn.createStatement();
