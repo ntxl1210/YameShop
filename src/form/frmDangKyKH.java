@@ -5,12 +5,19 @@
  */
 package form;
 
+import Regex.Regex;
+import database.clsConnectDB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author NeedNguyen
  */
 public class frmDangKyKH extends javax.swing.JFrame {
-
+    clsConnectDB cls = new clsConnectDB();
+    Regex regex = new Regex();
     /**
      * Creates new form frmDangKyKH
      */
@@ -58,6 +65,11 @@ public class frmDangKyKH extends javax.swing.JFrame {
         btnDangKyKH.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnDangKyKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register.png"))); // NOI18N
         btnDangKyKH.setText("Thêm khách hàng");
+        btnDangKyKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDangKyKHMouseClicked(evt);
+            }
+        });
         btnDangKyKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDangKyKHActionPerformed(evt);
@@ -153,6 +165,33 @@ public class frmDangKyKH extends javax.swing.JFrame {
     private void btnDangKyKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyKHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDangKyKHActionPerformed
+
+    private void btnDangKyKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKyKHMouseClicked
+       try
+       {
+           if(regex.check(txtTenKH.getText(), regex.namec) && regex.check(txtSDT.getText(), regex.sdtc) && regex.check(txtEmail.getText(), regex.emailc) )
+           {
+               String sql = "SELECT TOP 1 * FROM khach_hang ORDER BY id DESC";
+           ResultSet rs = cls.excuteQueryGetTable(sql);
+           rs.next();
+           int id = rs.getInt("id") + 1;
+           String ma_kh = "KH00" + id;
+           sql = "INSERT  INTO  khach_hang ([ma_kh], [ten_kh], [sdt], [dia_chi], [email], [tong_tien]) VALUES ('"+ma_kh+"','"+txtTenKH.getText()+"','"+txtSDT.getText()+"','"+txtDiaChi.getText()+"','"+txtEmail.getText()+"','0')";
+           cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           this.dispose();
+           }
+           else
+           {
+               JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           }
+           
+       }
+        catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        
+    }//GEN-LAST:event_btnDangKyKHMouseClicked
 
     /**
      * @param args the command line arguments

@@ -12,12 +12,14 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import database.clsConnectDB;
+import javax.swing.JOptionPane;
 /**
  *
  * @author NeedNguyen
  */
 public class frmTrangChu extends javax.swing.JFrame {
     clsConnectDB cls = new clsConnectDB();
+    
     /**
      * Creates new form frmTrangChu
      */
@@ -29,6 +31,12 @@ public class frmTrangChu extends javax.swing.JFrame {
             for(int i = 1; i < jTabbedPane1.getTabCount()-1; i++)
                 jTabbedPane1.setEnabledAt(i, false);
         }
+        if(nguoiDung != null)
+        {
+            txtMaNV.setText(String.valueOf(nguoiDung.getMaCV()));
+            txtTenNV.setText(nguoiDung.getTen());
+        }
+        
     }
 
     /**
@@ -1948,6 +1956,11 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnThemKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemKhachHang.setText("Thêm khách hàng");
+        btnThemKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKhachHangMouseClicked(evt);
+            }
+        });
         btnThemKhachHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemKhachHangActionPerformed(evt);
@@ -2070,6 +2083,11 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnTimKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnTimKH.setText("Tìm khách hàng");
+        btnTimKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimKHMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -2182,7 +2200,20 @@ public class frmTrangChu extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSanPhamBH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamBHMouseClicked(evt);
+            }
+        });
         jScrollPaneBanHang.setViewportView(tblSanPhamBH);
 
         btnTimSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
@@ -2408,6 +2439,40 @@ public class frmTrangChu extends javax.swing.JFrame {
             System.err.println("Cannot connect database, " + ex);
         }
     }//GEN-LAST:event_btnTimSPMouseClicked
+
+    private void btnTimKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKHMouseClicked
+        try
+        {
+        if (txtTimKH.getText().length() > 0) {
+            String  sql = "SELECT ma_kh,ten_kh FROM khach_hang where ten_kh like N'%" + txtTimKH.getText() + "%'";
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            rs.next();
+            txtTenSP.setText(rs.getString("ma_kh"));
+            txtSoLuongSP.setText(rs.getString("ten_kh"));
+        }
+        else
+        {
+           JOptionPane.showMessageDialog(this, "Vui lòng không để trống", "Thông báo", JOptionPane.INFORMATION_MESSAGE);       
+        }
+        }
+        catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+        
+    }//GEN-LAST:event_btnTimKHMouseClicked
+
+    private void tblSanPhamBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamBHMouseClicked
+        int row = tblSanPhamBH.rowAtPoint(evt.getPoint());
+        int col = tblSanPhamBH.columnAtPoint(evt.getPoint());
+        
+        DefaultTableModel models = (DefaultTableModel)tblSanPhamBH.getModel();
+        System.out.print(models.getValueAt(row, col));
+    }//GEN-LAST:event_tblSanPhamBHMouseClicked
+
+    private void btnThemKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKhachHangMouseClicked
+        frmDangKyKH frm = new frmDangKyKH();
+        frm.show();
+    }//GEN-LAST:event_btnThemKhachHangMouseClicked
 
     /**
      * @param args the command line arguments
