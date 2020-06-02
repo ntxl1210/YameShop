@@ -7,12 +7,17 @@ package form;
 
 import GlobalData.GlobalData;
 import NguoiDung.NguoiDung;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import database.clsConnectDB;
 /**
  *
  * @author NeedNguyen
  */
 public class frmTrangChu extends javax.swing.JFrame {
-
+    clsConnectDB cls = new clsConnectDB();
     /**
      * Creates new form frmTrangChu
      */
@@ -2182,6 +2187,11 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnTimSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnTimSP.setText("Tìm sản phẩm");
+        btnTimSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimSPMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -2371,6 +2381,33 @@ public class frmTrangChu extends javax.swing.JFrame {
     private void btnXuatCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatCTPNActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnXuatCTPNActionPerformed
+
+    private void btnTimSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimSPMouseClicked
+        String  sql = "SELECT gia_ban, ma_sp, so_luong, ten_sp FROM san_pham";
+        if (txtTimSP.getText().length() > 0) {
+            sql = sql + " where ten_sp like N'%" + txtTimSP.getText() + "%'";
+        }
+        try {
+            String header[] = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng","Giá bán"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getString("ma_sp"));
+                data.add(rs.getString("ten_sp"));
+                data.add(rs.getInt("so_luong"));
+                data.add(rs.getString("gia_ban"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                }
+            tblSanPhamBH.setModel(tblModel);
+    
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }//GEN-LAST:event_btnTimSPMouseClicked
 
     /**
      * @param args the command line arguments
