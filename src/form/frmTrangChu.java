@@ -35,9 +35,35 @@ public class frmTrangChu extends javax.swing.JFrame {
         {
             txtMaNV.setText(String.valueOf(nguoiDung.getMaCV()));
             txtTenNV.setText(nguoiDung.getTen());
+            LoadDm();
         }
         
     }
+    private void LoadDm()
+    {
+        String  sql = "SELECT id, ma_dm, ten_dm, ten_dm FROM danh_muc_sp";
+        
+        try {
+            String header[] = {"Id", "Mã danh mục", "Tên danh mục"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("ma_dm"));
+                data.add(rs.getString("ten_dm"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                }
+            tblDanhMuc.setModel(tblModel);
+    
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -634,6 +660,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "ID", "Mã danh mục", "Tên danh mục"
             }
         ));
+        tblDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDanhMucMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblDanhMuc);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin danh mục", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(51, 102, 255))); // NOI18N
@@ -677,12 +708,27 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnThemDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemDanhMuc.setText("Thêm");
+        btnThemDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemDanhMucMouseClicked(evt);
+            }
+        });
 
         btnSuaDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnSuaDanhMuc.setText("Sửa");
+        btnSuaDanhMuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaDanhMucActionPerformed(evt);
+            }
+        });
 
         btnXoaDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnXoaDanhMuc.setText("Xóa");
+        btnXoaDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaDanhMucMouseClicked(evt);
+            }
+        });
         btnXoaDanhMuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaDanhMucActionPerformed(evt);
@@ -2474,6 +2520,44 @@ public class frmTrangChu extends javax.swing.JFrame {
         frm.show();
     }//GEN-LAST:event_btnThemKhachHangMouseClicked
 
+    private void tblDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhMucMouseClicked
+       int row = tblDanhMuc.rowAtPoint(evt.getPoint());
+        
+        
+        DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel();
+        txtMaDanhMuc.setText(models.getValueAt(row, 1).toString());
+        txtTenDanhMuc.setText(models.getValueAt(row, 2).toString());
+    }//GEN-LAST:event_tblDanhMucMouseClicked
+
+    private void btnThemDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemDanhMucMouseClicked
+           
+           String sql = "INSERT  INTO  danh_muc_sp ([ma_dm], [ten_dm]) VALUES ('"+txtMaDanhMuc.getText()+"',N'"+txtTenDanhMuc.getText()+"')";
+           cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm danh muc thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadDm();
+    }//GEN-LAST:event_btnThemDanhMucMouseClicked
+
+    private void btnSuaDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaDanhMucActionPerformed
+        int row = tblDanhMuc.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel();
+        int id = (int)models.getValueAt(row, 0);
+        String sql = "UPDATE danh_muc_sp SET ma_dm = '"+txtMaDanhMuc.getText()+"', ten_dm = N'"+txtTenDanhMuc.getText()+"'  WHERE id = '"+id+"'";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaDanhMuc.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadDm();
+    }//GEN-LAST:event_btnSuaDanhMucActionPerformed
+
+    private void btnXoaDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaDanhMucMouseClicked
+         int row = tblDanhMuc.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel(); 
+        String sql = "DELETE FROM danh_muc_sp WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadDm();
+    }//GEN-LAST:event_btnXoaDanhMucMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2502,10 +2586,8 @@ public class frmTrangChu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmTrangChu().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new frmTrangChu().setVisible(true);
         });
     }
 
