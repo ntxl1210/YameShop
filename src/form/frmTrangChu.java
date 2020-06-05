@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import database.clsConnectDB;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,6 +37,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         }
         if(nguoiDung != null)
         {
+            txtNgayBan.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             txtMaNV.setText(String.valueOf(nguoiDung.getMaCV()));
             txtTenNV.setText(nguoiDung.getTen());
             LoadDm();
