@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import database.clsConnectDB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -2125,6 +2127,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Kích thước", "Thành tiền"
             }
         ));
+        tblHoaDonBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonBanMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(tblHoaDonBan);
 
         btnTimKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
@@ -2508,11 +2515,26 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTimKHMouseClicked
 
     private void tblSanPhamBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamBHMouseClicked
-        int row = tblSanPhamBH.rowAtPoint(evt.getPoint());
-        int col = tblSanPhamBH.columnAtPoint(evt.getPoint());
+      int row = tblSanPhamBH.rowAtPoint(evt.getPoint());
+       
         
-        DefaultTableModel models = (DefaultTableModel)tblSanPhamBH.getModel();
-        System.out.print(models.getValueAt(row, col));
+        String  sql = "SELECT gia_ban, ma_sp, so_luong, ten_sp,kich_thuoc,gia_ban FROM san_pham where ma_sp = '"+tblSanPhamBH.getModel().getValueAt(row, 0)+"'";
+         ResultSet rs = cls.excuteQueryGetTable(sql);
+        try {
+            rs.next();
+            
+             Vector data = new Vector();
+                data.add(rs.getString("ma_sp"));
+                data.add(rs.getString("ten_sp"));
+                data.add(1);
+                data.add(rs.getString("kich_thuoc"));
+                data.add(rs.getString("gia_ban"));
+            DefaultTableModel models = (DefaultTableModel)tblHoaDonBan.getModel();
+            models.addRow(data);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tblSanPhamBHMouseClicked
 
     private void btnThemKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKhachHangMouseClicked
@@ -2557,6 +2579,16 @@ public class frmTrangChu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
         LoadDm();
     }//GEN-LAST:event_btnXoaDanhMucMouseClicked
+
+    private void tblHoaDonBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonBanMouseClicked
+       int row = tblHoaDonBan.getSelectedRow();
+            txtMaSP.setText(tblHoaDonBan.getModel().getValueAt(row, 0).toString());
+               txtMaSP3.setText(tblHoaDonBan.getModel().getValueAt(row, 1).toString());
+                txtMaSP2.setText(tblHoaDonBan.getModel().getValueAt(row, 2).toString());
+                txtMaSP4.setText(tblHoaDonBan.getModel().getValueAt(row, 3).toString());
+                txtDonGia.setText(tblHoaDonBan.getModel().getValueAt(row, 4).toString());
+                txtThanhTien.setText(tblHoaDonBan.getModel().getValueAt(row, 4).toString());
+    }//GEN-LAST:event_tblHoaDonBanMouseClicked
 
     /**
      * @param args the command line arguments
