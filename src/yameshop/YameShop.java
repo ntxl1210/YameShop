@@ -6,6 +6,7 @@
 package yameshop;
 
 import GlobalData.GlobalData;
+import NguoiDung.NguoiDung;
 /**
  *
  * @author NeedNguyen
@@ -22,19 +23,9 @@ public class YameShop {
     public static database.clsConnectDB connection = new  database.clsConnectDB ();
 
     public static void main(String[] args) {
-       if(GlobalData.getNguoiDung() != null)
-       {
-            frmTrangChu frmCT = new frmTrangChu();
-            frmCT.pack();
-            frmCT.show();
-       }
-       else
-       {
-            frmDangNhap frmDN = new frmDangNhap();
-            frmDN.pack();
-            frmDN.show();
-       }
-       
+        frmDangNhap frmDN = new frmDangNhap();
+        frmDN.pack();
+        frmDN.show();
     }
     
 }

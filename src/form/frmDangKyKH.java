@@ -169,7 +169,7 @@ public class frmDangKyKH extends javax.swing.JFrame {
     private void btnDangKyKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKyKHMouseClicked
        try
        {
-           if(regex.check(txtTenKH.getText(), regex.namec) && regex.check(txtSDT.getText(), regex.sdtc) && regex.check(txtEmail.getText(), regex.emailc) )
+           if(regex.checkTTKH(txtTenKH.getText(), regex.namec) && regex.checkTTKH(txtSDT.getText(), regex.sdtc) && regex.checkTTKH(txtEmail.getText(), regex.emailc) )
            {
                String sql = "SELECT TOP 1 * FROM khach_hang ORDER BY id DESC";
            ResultSet rs = cls.excuteQueryGetTable(sql);

@@ -22,4 +22,8 @@ public class GlobalData {
     public static void setNguoiDung(NguoiDung nguoiDungMoi) {
         nguoiDung = nguoiDungMoi;
     }
+    
+    public static void xoaNguoiDung() {
+        nguoiDung = null;
+    }
 }

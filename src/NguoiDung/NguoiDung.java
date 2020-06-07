@@ -10,20 +10,21 @@ package NguoiDung;
  * @author ntxl1
  */
 public class NguoiDung {
-    private static int id;
-    private static String taiKhoan;
-    private static String matKhau;
-    private static String ten;
-    private static String email;
-    private static int maCV;
-    private static int sDT;
-    private static String diaChi;
-    private static String gioiTinh;
-    private static int luong;
-    private static Boolean ghiNhoDangNhap = false;
+    private int id;
+    private String taiKhoan;
+    private String matKhau;
+    private String ten;
+    private String email;
+    private int maCV;
+    private int sDT;
+    private String diaChi;
+    private String gioiTinh;
+    private int luong;
+    private Boolean ghiNhoDangNhap = false;
     
     public NguoiDung()
     {
+
     }
     
     public NguoiDung(int id, String taiKhoan, String matKhau, String ten, String email, int maCV, int sDT, String diaChi, String gioiTinh, int luong, boolean ghiNhoDangNhap)
@@ -41,79 +42,79 @@ public class NguoiDung {
         this.ghiNhoDangNhap = ghiNhoDangNhap;
     }
     
-    public static int getId() {
+    public int getId() {
         return id;
     }
     
-    public static String getTaiKhoan() {
+    public String getTaiKhoan() {
         return taiKhoan;
     }
     
-    public static void setMatKhau(String matKhauMoi) {
+    public void setMatKhau(String matKhauMoi) {
         matKhau = matKhauMoi;
     }
     
-    public static String getTen() {
+    public String getTen() {
         return ten;
     }
     
-    public static void setTen(String tenMoi) {
+    public void setTen(String tenMoi) {
         ten = tenMoi;
     }
     
-    public static String getEmail() {
+    public String getEmail() {
         return email;
     }
     
-    public static void setEmail(String emailMoi) {
+    public void setEmail(String emailMoi) {
         email = emailMoi;
     }
     
-    public static int getMaCV() {
+    public int getMaCV() {
         return maCV;
     }
     
-    public static void setMaCV(int maCVMoi) {
+    public void setMaCV(int maCVMoi) {
         maCV = maCVMoi;
     }
     
-    public static int getSDT() {
+    public int getSDT() {
         return sDT;
     }
     
-    public static void setSDT(int SDTMoi) {
+    public void setSDT(int SDTMoi) {
         sDT = SDTMoi;
     }
     
-    public static String getDiaChi() {
+    public String getDiaChi() {
         return diaChi;
     }
     
-    public static void setDiaChi(String diaChiMoi) {
+    public void setDiaChi(String diaChiMoi) {
         diaChi = diaChiMoi;
     }
     
-    public static String getGioiTinh() {
+    public String getGioiTinh() {
         return gioiTinh;
     }
     
-    public static void setGioiTinh(String gioiTinhMoi) {
+    public void setGioiTinh(String gioiTinhMoi) {
         gioiTinh = gioiTinhMoi;
     }
     
-    public static int getLuong() {
+    public int getLuong() {
         return luong;
     }
     
-    public static void setLuong(int LuongMoi) {
+    public void setLuong(int LuongMoi) {
         luong = LuongMoi;
     }
     
-    public static Boolean getghiNhoDangNhap() {
+    public Boolean getghiNhoDangNhap() {
         return ghiNhoDangNhap;
     }
 
-    public static void setghiNhoDangNhap(boolean ghiNhoDangNhapMoi) {
+    public void setghiNhoDangNhap(boolean ghiNhoDangNhapMoi) {
         ghiNhoDangNhap = ghiNhoDangNhapMoi;
     }
 
