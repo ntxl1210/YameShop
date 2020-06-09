@@ -7,12 +7,14 @@ package GlobalData;
 
 
 import NguoiDung.NguoiDung;
+import KhachHang.KhachHang;
 /**
  *
  * @author ntxl1
  */
 public class GlobalData {
     private static NguoiDung nguoiDung;
+    private static KhachHang khachHang;
     
 
     public static NguoiDung getNguoiDung() {
@@ -25,5 +27,17 @@ public class GlobalData {
     
     public static void xoaNguoiDung() {
         nguoiDung = null;
+    }
+    
+    public static KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public static void setKhachHang(KhachHang khachHangMoi) {
+        khachHang = khachHangMoi;
+    }
+    
+    public static void xoaKhachHang() {
+        khachHang = null;
     }
 }

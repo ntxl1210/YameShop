@@ -22,6 +22,7 @@ public class Regex {
    public int giac = 2;
    
    public int slspbhc = 1;
+   public int ggbh = 2;
    
     
     public boolean checkTTKH(String text,int type)
@@ -78,7 +79,20 @@ public class Regex {
         if(type == this.slspbhc)
         {
             this.Mess = "Số lượng chỉ có thể là ký tự số!"; 
-            Pattern pattern = Pattern.compile("^[0-9]*$");
+            Pattern pattern = Pattern.compile("^[0-9]+.*$");
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        }
+        return false;
+        
+    }
+    
+    public boolean checkGGBH(String text,int type)
+    {
+        if(type == this.ggbh)
+        {
+            this.Mess = "Giảm giá chỉ có thể từ 0 đến 100!"; 
+            Pattern pattern = Pattern.compile("^([0-9][0-9]{0,1}|100)$");
             Matcher matcher = pattern.matcher(text);
             return matcher.matches();
         }
