@@ -42,13 +42,18 @@ public class frmTrangChu extends javax.swing.JFrame {
     clsConnectDB cls = new clsConnectDB();
     Regex regex = new Regex();
     NguoiDung nguoiDung = new NguoiDung();
+    List<Integer> cbxCCChucvu = new ArrayList<Integer>();
+    List<Integer> cbxCCCN = new ArrayList<Integer>();
     /**
      * Creates new form frmTrangChu
      */
     public frmTrangChu() {
+        
         initComponents();
+        
         try 
         {
+            
             nguoiDung = GlobalData.getNguoiDung();
         } 
         catch (NullPointerException e) 
@@ -87,6 +92,8 @@ public class frmTrangChu extends javax.swing.JFrame {
             loadSPBH();
             LoadCNBC();
             LoadChiNhanh();
+            loadCCCV();
+            LoadUserTable();
         }
     }
     public static boolean isValidDate(String inDate) {
@@ -101,17 +108,72 @@ public class frmTrangChu extends javax.swing.JFrame {
     }
     private void LoadCNBC()
     {
-         String  sql = "SELECT ma_cn FROM chi_nhanh";
+         String  sql = "SELECT * FROM chi_nhanh";
         
         try {
             String header[] = {"Id", "Mã danh mục", "Tên danh mục"};
             ResultSet rs = cls.excuteQueryGetTable(sql);
             Vector data = new Vector();
             while (rs.next()) {
-                data.add(rs.getString("ma_cn"));
+                cbxCCCN.add(rs.getInt("id"));
+                data.add(rs.getString("ten_cn"));
             }
            DefaultComboBoxModel cmbModel = new DefaultComboBoxModel(data);
             cbxChiNanhBC.setModel(cmbModel);
+            cbxChiNanh.setModel(cmbModel);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    private void loadCCCV()
+    {
+        String  sql = "SELECT * FROM chuc_vu";
+        
+        try {
+            
+            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            Vector data = null;
+            
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                cbxCCChucvu.add(rs.getInt("id"));
+                cbModel.addElement(rs.getString("ten_cv"));
+            }
+            
+            cbxChucVu.setModel(cbModel);
+    
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    private void LoadUserTable()
+    {
+     String  sql = "SELECT nd.*,cv.ten_cv FROM nguoi_dung as nd,chuc_vu as cv where cv.id = nd.ma_cv";
+        
+        try {
+            String header[] = {"Id", "Tài khoản", "Tên","Email","Chức vụ","Số Điện thoại","Dịa chỉ","giới tính","Lương"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("tai_khoan"));
+                data.add(rs.getString("ten"));
+                data.add(rs.getString("email"));
+                data.add(rs.getString("ten_cv"));
+                data.add(rs.getString("sdt"));
+                data.add(rs.getString("dia_chi"));
+                data.add(rs.getString("gioi_tinh"));
+                data.add(rs.getDouble("luong"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                
+                }
+            tblNguoiDung.setModel(tblModel);
+            
+    
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -3186,15 +3248,8 @@ public class frmTrangChu extends javax.swing.JFrame {
          if(isValidDate(txtTuNgayBCBH.getText().trim())  && isValidDate(txtDenNgayBCBH.getText().trim()))
          {
              int ma_cn = 0;
-            String sqlcn = "Select id from chi_nhanh where ma_cn = '"+cbxChiNanhBC.getSelectedItem()+"'";
-             ResultSet rscn = cls.excuteQueryGetTable(sqlcn);
-             try {
-                 
-                 rscn.next();
-                 ma_cn = rscn.getInt("id");
-             } catch (SQLException ex) {
-                 Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
-             }
+                ma_cn = cbxCCCN.get(cbxChiNanhBC.getSelectedIndex());
+             
              
             sql += " and hd.ngay_tao >= '"+txtTuNgayBCBH.getText().trim()+"' AND  hd.ngay_tao <= '"+txtDenNgayBCBH.getText().trim()+"' and hd.ma_cn = "+ma_cn+"";
             ResultSet rshoadon = cls.excuteQueryGetTable(sql);
