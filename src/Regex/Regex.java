@@ -79,7 +79,7 @@ public class Regex {
         if(type == this.slspbhc)
         {
             this.Mess = "Số lượng chỉ có thể là ký tự số!"; 
-            Pattern pattern = Pattern.compile("^[0-9]+.*$");
+            Pattern pattern = Pattern.compile("^[0-9]*$");
             Matcher matcher = pattern.matcher(text);
             return matcher.matches();
         }
