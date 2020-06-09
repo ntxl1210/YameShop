@@ -16,6 +16,7 @@ public class NguoiDung {
     private String ten;
     private String email;
     private int maCV;
+    private int maCN;
     private int sDT;
     private String diaChi;
     private String gioiTinh;
@@ -27,7 +28,7 @@ public class NguoiDung {
 
     }
     
-    public NguoiDung(int id, String taiKhoan, String matKhau, String ten, String email, int maCV, int sDT, String diaChi, String gioiTinh, int luong, boolean ghiNhoDangNhap)
+    public NguoiDung(int id, String taiKhoan, String matKhau, String ten, String email, int maCV, int maCN, int sDT, String diaChi, String gioiTinh, int luong, boolean ghiNhoDangNhap)
     {
         this.id = id;
         this.taiKhoan = taiKhoan;
@@ -35,6 +36,7 @@ public class NguoiDung {
         this.ten = ten;
         this.email = email;
         this.maCV = maCV;
+        this.maCN = maCN;
         this.sDT = sDT;
         this.diaChi = diaChi;
         this.gioiTinh = gioiTinh;
@@ -76,6 +78,14 @@ public class NguoiDung {
     
     public void setMaCV(int maCVMoi) {
         maCV = maCVMoi;
+    }
+    
+    public int getMaCN() {
+        return maCN;
+    }
+    
+    public void setMaCN(int maCNMoi) {
+        maCN = maCNMoi;
     }
     
     public int getSDT() {

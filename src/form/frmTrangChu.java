@@ -2728,6 +2728,8 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel45.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel45.setText("Giảm giá");
 
+        txtGiamGia.setText("0");
+
         jLabel46.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel46.setText("Tổng tiền");
 
@@ -3116,30 +3118,36 @@ public class frmTrangChu extends javax.swing.JFrame {
            {
                 String sql = "SELECT TOP 1 * FROM hoa_don ORDER BY id DESC";
                 ResultSet rs = cls.excuteQueryGetTable(sql);
-                rs.next();
-                int id = rs.getInt("id") + 1;
+                int id = 1;
                 String maHD = "HD00" + id;
+                if(rs.next())
+                {
+                    id = rs.getInt("id") + 1;
+                    maHD = "HD00" + id;
+                }
                 
                 double tongTien = 0;
                 if(txtTongTien.getText() != "")
                     tongTien = Double.parseDouble(txtTongTien.getText());
                 
-//                sql = "INSERT  INTO  hoa_don ([ma_hd], [ma_cn], [ma_nv], [ma_kh], [ten_kh], [ngay_tao], [giam_gia], [tong_tien]) VALUES ('"+maHD+"','"
-//                        ++"','"+nguoiDung.getId()+"','"+khachHang.getId()+"','"+khachHang.getTenKH()+"','"+getToDay()+"','"+giamGia+"'"+tongTien+"')";
+                sql = "INSERT  INTO  hoa_don ([ma_hd], [ma_cn], [ma_nv], [ma_kh], [ten_kh], [ngay_tao], [giam_gia], [tong_tien]) VALUES ('"+maHD+"','"
+                        +nguoiDung.getMaCN()+"','"+nguoiDung.getId()+"','"+khachHang.getId()+"',N'"+khachHang.getTenKH()+"','"+getToDay()+"',"+giamGia+","+tongTien+")";
                 cls.excuteQueryUpdateDB(sql);
-//                for(int i = 0; i < rowCount; i++)
-//                {
-//                    String maSP = tblHoaDonBan.getModel().getValueAt(i, 0).toString();
-//                    sql = "SELECT id FROM san_pham WHERE ma_sp=N'"+maSP+"'";
-//                    rs = cls.excuteQueryGetTable(sql);
-//                    rs.next();
-//                    int SPID = rs.getInt("id");
-//                    int soLuong = (int)tblHoaDonBan.getModel().getValueAt(i, 2);
-//                    int donGia = 
-//                    sql = "INSERT  INTO  ct_hoa_don ([ma_hd], [ma_sp], [so_luong], [don_gia], [tong_tien]) VALUES ('"+id+"','"
-//                        +SPID+"','"+nguoiDung.getId()+"','"+khachHang.getId()+"','"+khachHang.getTenKH()+"','"+getToDay()+"','"+giam_gia+"'"+tong_tien+"')";
-//                    cls.excuteQueryUpdateDB(sql);
-//                }
+                
+                for(int i = 0; i < rowCount; i++)
+                {
+                    String maSP = tblHoaDonBan.getModel().getValueAt(i, 0).toString();
+                    sql = "SELECT id FROM san_pham WHERE ma_sp=N'"+maSP+"'";
+                    rs = cls.excuteQueryGetTable(sql);
+                    rs.next();
+                    int SPID = rs.getInt("id");
+                    int soLuong = (int)tblHoaDonBan.getModel().getValueAt(i, 3);
+                    float donGia = (float)tblHoaDonBan.getModel().getValueAt(i, 4);
+                    double thanhTien = (double)tblHoaDonBan.getModel().getValueAt(i, 5);
+                    sql = "INSERT  INTO  ct_hoa_don ([ma_hd], [ma_sp], [so_luong], [don_gia], [tong_tien]) VALUES ("+id+","
+                        +SPID+","+soLuong+","+donGia+","+thanhTien+")";
+                    cls.excuteQueryUpdateDB(sql);
+                }
                 
                 JOptionPane.showMessageDialog(this, "Thêm hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
                 this.dispose();
@@ -3174,9 +3182,9 @@ public class frmTrangChu extends javax.swing.JFrame {
             String  sql = "SELECT * FROM khach_hang where ten_kh like N'%" + txtTimKH.getText() + "%'";
             ResultSet rs = cls.excuteQueryGetTable(sql);
             rs.next();
-            KhachHang khachHang1 = new KhachHang(rs.getInt("id"), rs.getString("ma_kh"), rs.getString("ten_kh"),
+            khachHang = new KhachHang(rs.getInt("id"), rs.getString("ma_kh"), rs.getString("ten_kh"),
                             rs.getString("email"), rs.getInt("sdt"), rs.getString("dia_chi"), rs.getFloat("tong_tien") );
-            GlobalData.setKhachHang(khachHang1);
+            GlobalData.setKhachHang(khachHang);
             txtSoLuongSP.setText(rs.getString("ten_kh"));
         }
         else
@@ -3406,12 +3414,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaSP2KeyPressed
 
     private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuyMouseClicked
-        // TODO add your handling code here:
-//        int rowCount = tblHoaDonBan.getRowCount();
-//        for(int i = rowCount - 1; i >= 0; i--)
-//        {
-//            ((DefaultTableModel)tblHoaDonBan.getModel()).removeRow(i);
-//        }
         ((DefaultTableModel)tblHoaDonBan.getModel()).setRowCount(0);
         setNullBH();
         int rowCount = tblHoaDonBan.getRowCount();

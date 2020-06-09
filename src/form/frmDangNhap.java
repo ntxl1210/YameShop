@@ -219,7 +219,7 @@ public class frmDangNhap extends javax.swing.JFrame {
                     }
                     
                     NguoiDung nguoiDung = new NguoiDung(rs.getInt("id"), rs.getString("tai_khoan"), rs.getString("mat_khau"), rs.getString("ten"), 
-                            rs.getString("email"), rs.getInt("ma_cv"), rs.getInt("sdt"), rs.getString("dia_chi"), rs.getString("gioi_tinh"), rs.getInt("luong"), ghiNhoDangNhap);
+                            rs.getString("email"), rs.getInt("ma_cv"), rs.getInt("ma_cn"), rs.getInt("sdt"), rs.getString("dia_chi"), rs.getString("gioi_tinh"), rs.getInt("luong"), ghiNhoDangNhap);
 
                     GlobalData.setNguoiDung(nguoiDung);
                     
