@@ -826,7 +826,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         jPanel15.add(jPanel20);
         jPanel20.setBounds(20, 21, 652, 30);
 
-        jLabel68.setIcon(new javax.swing.ImageIcon("C:\\Users\\NeedNguyen\\Pictures\\bgmall.png")); // NOI18N
+        jLabel68.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bgmall.png"))); // NOI18N
         jLabel68.setText("jLabel68");
         jPanel15.add(jLabel68);
         jLabel68.setBounds(15, 55, 870, 440);
@@ -3679,7 +3679,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
