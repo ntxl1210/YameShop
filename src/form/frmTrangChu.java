@@ -22,7 +22,18 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import Regex.Regex;
 import java.awt.event.KeyEvent;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 /**
  *
  * @author NeedNguyen
@@ -74,9 +85,37 @@ public class frmTrangChu extends javax.swing.JFrame {
             loadDM();
             loadSP();
             loadSPBH();
+            LoadCNBC();
+            LoadChiNhanh();
         }
     }
-    
+    public static boolean isValidDate(String inDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(inDate.trim());
+        } catch (ParseException pe) {
+            return false;
+        }
+        return true;
+    }
+    private void LoadCNBC()
+    {
+         String  sql = "SELECT ma_cn FROM chi_nhanh";
+        
+        try {
+            String header[] = {"Id", "Mã danh mục", "Tên danh mục"};
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            Vector data = new Vector();
+            while (rs.next()) {
+                data.add(rs.getString("ma_cn"));
+            }
+           DefaultComboBoxModel cmbModel = new DefaultComboBoxModel(data);
+            cbxChiNanhBC.setModel(cmbModel);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
     private void loadDM()
     {
         String  sql = "SELECT * FROM danh_muc_sp";
@@ -99,6 +138,35 @@ public class frmTrangChu extends javax.swing.JFrame {
                 }
             tblDanhMuc.setModel(tblModel);
             cbxDanhMuc.setModel(cbModel);
+    
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    private void LoadChiNhanh()
+    {
+        String  sql = "SELECT * FROM chi_nhanh";
+        
+        try {
+            String header[] = {"id","Mã chi nhánh", "Tên chi nhánh","Số điện thoại","Địa chỉ"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("ma_cn"));
+                data.add(rs.getString("ten_cn"));
+                data.add(rs.getString("sdt"));
+                data.add(rs.getString("dia_chi"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                
+                }
+            tblChiNhanh.setModel(tblModel);
+            
     
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
@@ -329,8 +397,8 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtChucVu = new javax.swing.JTextField();
         cbxChiNanh = new javax.swing.JComboBox<>();
+        cbxChucVu = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblNguoiDung = new javax.swing.JTable();
         btnThemNguoiDung = new javax.swing.JButton();
@@ -533,12 +601,10 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel66 = new javax.swing.JLabel();
         btnLocBaoCaoBH = new javax.swing.JButton();
         cbxChiNanhBC = new javax.swing.JComboBox<>();
+        btnInBaoCaoBH = new javax.swing.JButton();
         jScrollPane10 = new javax.swing.JScrollPane();
         tblBaoCaoBH = new javax.swing.JTable();
         jPanel14 = new javax.swing.JPanel();
-        cbxBaoCaoBH = new javax.swing.JComboBox<>();
-        jLabel67 = new javax.swing.JLabel();
-        btnInBaoCaoBH = new javax.swing.JButton();
         jPanelBCXuatNhap = new javax.swing.JPanel();
         jTabbedPane7 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
@@ -624,6 +690,8 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         cbxChiNanh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        cbxChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -642,9 +710,9 @@ public class frmTrangChu extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtSoDienThoai)
-                            .addComponent(txtChucVu, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxChiNanh, 0, 174, Short.MAX_VALUE))
+                            .addComponent(cbxChiNanh, 0, 174, Short.MAX_VALUE)
+                            .addComponent(cbxChucVu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 59, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -670,8 +738,8 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(cbxChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách người dùng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(51, 153, 255))); // NOI18N
@@ -830,13 +898,28 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblChiNhanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblChiNhanhMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblChiNhanh);
 
         btnSuaChiNhanh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnSuaChiNhanh.setText("Sửa");
+        btnSuaChiNhanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaChiNhanhMouseClicked(evt);
+            }
+        });
 
         btnXoaChiNhanh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnXoaChiNhanh.setText("Xóa");
+        btnXoaChiNhanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaChiNhanhMouseClicked(evt);
+            }
+        });
         btnXoaChiNhanh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaChiNhanhActionPerformed(evt);
@@ -853,6 +936,11 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnThemChiNhanh3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemChiNhanh3.setText("Thêm");
+        btnThemChiNhanh3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemChiNhanh3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelChiNhanhLayout = new javax.swing.GroupLayout(jPanelChiNhanh);
         jPanelChiNhanh.setLayout(jPanelChiNhanhLayout);
@@ -2205,8 +2293,21 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnLocBaoCaoBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnLocBaoCaoBH.setText("Lọc");
+        btnLocBaoCaoBH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLocBaoCaoBHMouseClicked(evt);
+            }
+        });
 
         cbxChiNanhBC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnInBaoCaoBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
+        btnInBaoCaoBH.setText("In");
+        btnInBaoCaoBH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInBaoCaoBHMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -2225,24 +2326,28 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addComponent(jLabel66)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbxChiNanhBC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(99, 99, 99)
                 .addComponent(btnLocBaoCaoBH)
-                .addContainerGap(463, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(btnInBaoCaoBH)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel64)
-                    .addComponent(txtTuNgayBCBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel65)
                         .addComponent(txtDenNgayBCBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel66)
                         .addComponent(btnLocBaoCaoBH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbxChiNanhBC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbxChiNanhBC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInBaoCaoBH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel64)
+                        .addComponent(txtTuNgayBCBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         tblBaoCaoBH.setModel(new javax.swing.table.DefaultTableModel(
@@ -2260,36 +2365,15 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         jPanel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cbxBaoCaoBH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel67.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel67.setText("Chọn mục");
-
-        btnInBaoCaoBH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
-        btnInBaoCaoBH.setText("In");
-
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jLabel67)
-                .addGap(18, 18, 18)
-                .addComponent(cbxBaoCaoBH, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btnInBaoCaoBH)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 1253, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbxBaoCaoBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel67)
-                    .addComponent(btnInBaoCaoBH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+            .addGap(0, 66, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanelBCBanHangLayout = new javax.swing.GroupLayout(jPanelBCBanHang);
@@ -3096,6 +3180,133 @@ public class frmTrangChu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHuyMouseClicked
 
+    private void btnLocBaoCaoBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLocBaoCaoBHMouseClicked
+         System.out.println(isValidDate("20/01/2014"));
+         String sql = "SELECT sp.ma_sp,sp.ten_sp,ct.so_luong,ct.tong_tien, hd.ten_kh, nv.ten FROM hoa_don As hd, ct_hoa_don AS ct, san_pham as sp, nguoi_dung as nv WHERE hd.id=ct.ma_hd and ct.ma_sp = sp.id and nv.id = hd.ma_nv";
+         if(isValidDate(txtTuNgayBCBH.getText().trim())  && isValidDate(txtDenNgayBCBH.getText().trim()))
+         {
+             int ma_cn = 0;
+            String sqlcn = "Select id from chi_nhanh where ma_cn = '"+cbxChiNanhBC.getSelectedItem()+"'";
+             ResultSet rscn = cls.excuteQueryGetTable(sqlcn);
+             try {
+                 
+                 rscn.next();
+                 ma_cn = rscn.getInt("id");
+             } catch (SQLException ex) {
+                 Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             
+            sql += " and hd.ngay_tao >= '"+txtTuNgayBCBH.getText().trim()+"' AND  hd.ngay_tao <= '"+txtDenNgayBCBH.getText().trim()+"' and hd.ma_cn = "+ma_cn+"";
+            ResultSet rshoadon = cls.excuteQueryGetTable(sql);
+            
+             try {
+                  String header[] = {"STT","Mã sản phẩm", "Tên sản phẩm", "Số lượng","Tổng tiền","Tên kh","Tên nv"};
+                    DefaultTableModel tblModel = new DefaultTableModel(header,0);
+                    
+                    tblModel.setRowCount(0);
+                    int i = 1;
+                 while (rshoadon.next()) {
+                     Vector data = new Vector();
+                    
+                     data.add(i);
+                     data.add(rshoadon.getString("ma_sp"));
+                     data.add(rshoadon.getString("ten_sp"));
+                     data.add(rshoadon.getInt("so_luong"));
+                     data.add(rshoadon.getDouble("tong_tien"));
+                     data.add(rshoadon.getString("ten_kh"));
+                     data.add(rshoadon.getString("ten"));
+                     i++;
+                     tblModel.addRow(data);
+                
+            
+                  }
+                 tblBaoCaoBH.setModel(tblModel);
+             } 
+             catch (SQLException ex) {
+                 Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         }
+         else
+         {
+         JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày dd/mm/yyyy", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+         }
+    }//GEN-LAST:event_btnLocBaoCaoBHMouseClicked
+
+    private void btnInBaoCaoBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInBaoCaoBHMouseClicked
+             DefaultTableModel model = (DefaultTableModel) tblBaoCaoBH.getModel();
+            JFileChooser excelfilechooser = new JFileChooser("E:\\");
+            excelfilechooser.setDialogTitle("Save as");
+            FileNameExtensionFilter fnef = new FileNameExtensionFilter("Excel files","xls","xlsx","xlsm");
+            excelfilechooser.setFileFilter(fnef);
+           int excelchooser =  excelfilechooser.showSaveDialog(null);
+            if(excelchooser == JFileChooser.APPROVE_OPTION)
+            {
+                XSSFWorkbook excelJtableExporter = new XSSFWorkbook();
+                XSSFSheet  excelSheet = excelJtableExporter.createSheet("Bao cao");
+               for(int i = 0 ;i<model.getRowCount();i++)
+               {
+                   XSSFRow excelRow = excelSheet.createRow(i);
+                   for(int j=0;j<model.getColumnCount();j++)
+                   {
+                       XSSFCell excelCell = excelRow.createCell(j);
+                       excelCell.setCellValue("a");
+                   }
+               }
+                 try {
+                     FileOutputStream excelFOP = new FileOutputStream(excelfilechooser.getSelectedFile() + ".xlsx");
+                 BufferedOutputStream excelBOP = new BufferedOutputStream(excelFOP);
+                 excelJtableExporter.write(excelBOP);
+                 } catch (FileNotFoundException ex) {
+                     Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+                 } catch (IOException ex) {
+                     Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+            }   
+            
+            
+            
+            
+    }//GEN-LAST:event_btnInBaoCaoBHMouseClicked
+
+    private void tblChiNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChiNhanhMouseClicked
+        int row = tblChiNhanh.rowAtPoint(evt.getPoint());
+        
+        
+        DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel();
+        txtMaChiNhanh.setText(models.getValueAt(row, 1).toString());
+        txtTenChiNhanh.setText(models.getValueAt(row, 2).toString());
+        txtSdtChiNhanh.setText(models.getValueAt(row, 3).toString());
+        txtDiaChiChiNhanh.setText(models.getValueAt(row, 4).toString());
+    }//GEN-LAST:event_tblChiNhanhMouseClicked
+
+    private void btnThemChiNhanh3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemChiNhanh3MouseClicked
+        String sql = "INSERT  INTO  chi_nhanh ([ma_cn], [ten_cn],[sdt],[dia_chi]) VALUES ('"+txtMaChiNhanh.getText()+"',N'"+txtTenChiNhanh.getText()+"','"+txtSdtChiNhanh.getText()+"',N'"+txtDiaChiChiNhanh.getText()+"')";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm danh muc thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadChiNhanh();
+    }//GEN-LAST:event_btnThemChiNhanh3MouseClicked
+
+    private void btnSuaChiNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaChiNhanhMouseClicked
+        int row = tblChiNhanh.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel();
+        int id = (int)models.getValueAt(row, 0);
+        String sql = "UPDATE chi_nhanh SET ma_cn = '"+txtMaChiNhanh.getText()+"', ten_cn = N'"+txtTenChiNhanh.getText()+"', sdt = N'"+txtSdtChiNhanh.getText()+"',dia_chi = N'"+txtDiaChiChiNhanh.getText()+"'  WHERE id = '"+id+"'";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadChiNhanh();
+    }//GEN-LAST:event_btnSuaChiNhanhMouseClicked
+
+    private void btnXoaChiNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaChiNhanhMouseClicked
+         int row = tblChiNhanh.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel(); 
+        String sql = "DELETE FROM chi_nhanh WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadChiNhanh();
+    }//GEN-LAST:event_btnXoaChiNhanhMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -3182,9 +3393,9 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JButton btnXuatKH;
     private javax.swing.JButton btnXuatNCC;
     private javax.swing.JButton btnXuatNguoiDung;
-    private javax.swing.JComboBox<String> cbxBaoCaoBH;
     private javax.swing.JComboBox<String> cbxChiNanh;
     private javax.swing.JComboBox<String> cbxChiNanhBC;
+    private javax.swing.JComboBox<String> cbxChucVu;
     private javax.swing.JComboBox<String> cbxDanhMuc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3250,7 +3461,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel89;
@@ -3330,7 +3540,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private java.awt.TextArea textAreaMoTa;
     private javax.swing.JTextField txtChiNhanh;
     private javax.swing.JTextField txtChiNhanhNH;
-    private javax.swing.JTextField txtChucVu;
     private javax.swing.JTextField txtDenNgayBCBH;
     private javax.swing.JTextField txtDiaChiChiNhanh;
     private javax.swing.JTextField txtDiaChiKH;
