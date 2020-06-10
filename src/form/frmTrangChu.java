@@ -108,6 +108,8 @@ public class frmTrangChu extends javax.swing.JFrame {
             LoadChiNhanh();
             loadCCCV();
             LoadUserTable();
+            LoadNhaCC();
+            LoadKhachhang();
         }
     }
     public static boolean isValidDate(String inDate) {
@@ -119,6 +121,64 @@ public class frmTrangChu extends javax.swing.JFrame {
             return false;
         }
         return true;
+    }
+    private void LoadNhaCC()
+    {
+         String  sql = "SELECT * FROM nha_cung_cap";
+        
+        try {
+            String header[] = {"Id", "Mã nhà cung cấp", "Tên nhà cung cấp","Địa chỉ","Số điện thoại","Email","Tổng tiền"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("ma_ncc"));
+                data.add(rs.getString("ten_ncc"));
+                data.add(rs.getString("dia_chi"));
+                data.add(rs.getString("sdt"));
+                data.add(rs.getString("email"));
+                data.add(rs.getDouble("tong_tien_nhap"));
+                
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                
+                }
+            tblNhaCC.setModel(tblModel);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    private void LoadKhachhang()
+    {
+         String  sql = "SELECT * FROM khach_hang";
+        
+        try {
+            String header[] = {"Id", "Mã khách hàng", "Tên khách hàng","Địa chỉ","Số điện thoại","Email","Tổng tiền mua"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("ma_kh"));
+                data.add(rs.getString("ten_kh"));
+                data.add(rs.getString("dia_chi"));
+                data.add(rs.getString("sdt"));
+                data.add(rs.getString("email"));
+                data.add(rs.getDouble("tong_tien"));
+                
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                
+                }
+            tblKhachHang.setModel(tblModel);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
     }
     private void LoadCNBC()
     {
@@ -2169,6 +2229,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "ID", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Email", "Tổng tiền nhập"
             }
         ));
+        tblNhaCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNhaCCMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblNhaCC);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin nhà cung cấp", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(51, 102, 255))); // NOI18N
@@ -2252,12 +2317,27 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnThemNCC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemNCC.setText("Thêm");
+        btnThemNCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemNCCMouseClicked(evt);
+            }
+        });
 
         btnSuaNCC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnSuaNCC.setText("Sửa");
+        btnSuaNCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaNCCMouseClicked(evt);
+            }
+        });
 
         btnXoaNCC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnXoaNCC.setText("Xóa");
+        btnXoaNCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaNCCMouseClicked(evt);
+            }
+        });
         btnXoaNCC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaNCCActionPerformed(evt);
@@ -2327,6 +2407,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "ID", "Mã khách hàng", "Tên khách hàng", "Điạ chỉ", "Số điện thoại", "Email", "Tổng tiền mua"
             }
         ));
+        tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhachHangMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(tblKhachHang);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(51, 102, 255))); // NOI18N
@@ -2407,12 +2492,27 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnThemKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemKH.setText("Thêm");
+        btnThemKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKHMouseClicked(evt);
+            }
+        });
 
         btnSuaKh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnSuaKh.setText("Sửa");
+        btnSuaKh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaKhMouseClicked(evt);
+            }
+        });
 
         btnXoaKH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnXoaKH.setText("Xóa");
+        btnXoaKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaKHMouseClicked(evt);
+            }
+        });
         btnXoaKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaKHActionPerformed(evt);
@@ -2987,7 +3087,7 @@ public class frmTrangChu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1330, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -3545,6 +3645,88 @@ public class frmTrangChu extends javax.swing.JFrame {
         int row = tblChiNhanh.rowAtPoint(evt.getPoint());
         bindingValuesBH(row);
     }//GEN-LAST:event_tblHoaDonBanMouseClicked
+
+    private void tblNhaCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhaCCMouseClicked
+        int row = tblNhaCC.rowAtPoint(evt.getPoint());
+        
+        
+        DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel();
+        txtNhaCC.setText(models.getValueAt(row, 1).toString());
+        txtTenNhaCC.setText(models.getValueAt(row, 2).toString());
+        txtDiaChiNCC.setText(models.getValueAt(row, 3).toString());
+        txtSdtNCC.setText(models.getValueAt(row, 4).toString());
+        txtEmail.setText(models.getValueAt(row, 5).toString());
+        txtTongTienNhap.setText(models.getValueAt(row, 6).toString());
+    }//GEN-LAST:event_tblNhaCCMouseClicked
+
+    private void btnThemNCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemNCCMouseClicked
+        String sql = "INSERT  INTO  nha_cung_cap ([ma_ncc], [ten_ncc],[sdt],[dia_chi],[email],[tong_tien_nhap]) VALUES ('"+txtNhaCC.getText()+"',N'"+txtTenNhaCC.getText()+"','"+txtSdtNCC.getText()+"',N'"+txtDiaChiNCC.getText()+"',N'"+txtEmail.getText()+"',"+txtTongTienNhap.getText()+")";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm nhà cung cấp thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadNhaCC();
+    }//GEN-LAST:event_btnThemNCCMouseClicked
+
+    private void btnSuaNCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaNCCMouseClicked
+        int row = tblNhaCC.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel();
+        int id = (int)models.getValueAt(row, 0);
+        String sql = "UPDATE nha_cung_cap SET ma_ncc = '"+txtNhaCC.getText()+"', ten_ncc = N'"+txtTenNhaCC.getText()+"', sdt = N'"+txtSdtNCC.getText()+"',dia_chi = N'"+txtDiaChiNCC.getText()+"',email = N'"+txtEmail.getText()+"',tong_tien_nhap = "+txtTongTienNhap.getText()+"  WHERE id = '"+id+"'";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadNhaCC();
+    }//GEN-LAST:event_btnSuaNCCMouseClicked
+
+    private void btnXoaNCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaNCCMouseClicked
+         int row = tblNhaCC.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel(); 
+        String sql = "DELETE FROM nha_cung_cap WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadNhaCC();
+    }//GEN-LAST:event_btnXoaNCCMouseClicked
+
+    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
+        int row = tblKhachHang.rowAtPoint(evt.getPoint());
+        
+        
+        DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel();
+        txtMaKH.setText(models.getValueAt(row, 1).toString());
+        txtTenKH.setText(models.getValueAt(row, 2).toString());
+        txtDiaChiKH.setText(models.getValueAt(row, 3).toString());
+        txtSdtKH.setText(models.getValueAt(row, 4).toString());
+        txtEmailKH.setText(models.getValueAt(row, 5).toString());
+        txtTongTienMua.setText(models.getValueAt(row, 6).toString());
+    }//GEN-LAST:event_tblKhachHangMouseClicked
+
+    private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKHMouseClicked
+         String sql = "INSERT  INTO  khach_hang ([ma_kh], [ten_kh],[sdt],[dia_chi],[email],[tong_tien]) VALUES ('"+txtMaKH.getText()+"',N'"+txtTenKH.getText()+"','"+txtSdtKH.getText()+"',N'"+txtDiaChiKH.getText()+"',N'"+txtEmailKH.getText()+"',"+txtTongTienMua.getText()+")";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadKhachhang();
+    }//GEN-LAST:event_btnThemKHMouseClicked
+
+    private void btnSuaKhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaKhMouseClicked
+        int row = tblKhachHang.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel();
+        int id = (int)models.getValueAt(row, 0);
+        String sql = "UPDATE khach_hang SET ma_kh = '"+txtMaKH.getText()+"', ten_kh = N'"+txtTenKH.getText()+"', sdt = N'"+txtSdtKH.getText()+"',dia_chi = N'"+txtDiaChiKH.getText()+"',email = N'"+txtEmailKH.getText()+"',tong_tien = "+txtTongTienMua.getText()+"  WHERE id = '"+id+"'";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadKhachhang();
+    }//GEN-LAST:event_btnSuaKhMouseClicked
+
+    private void btnXoaKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaKHMouseClicked
+        int row = tblKhachHang.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel(); 
+        String sql = "DELETE FROM khach_hang WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Xóa khách hàng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadKhachhang();
+    }//GEN-LAST:event_btnXoaKHMouseClicked
 
     /**
      * @param args the command line arguments
