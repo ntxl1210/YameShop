@@ -28,7 +28,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTabbedPane1" pref="1330" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
                   <Component id="jPanel3" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -456,9 +456,12 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch ng&#x1b0;&#x1edd;i d&#xf9;ng">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="66" red="0" type="rgb"/>
                     </Property>
                   </Properties>
 
@@ -489,7 +492,7 @@
                 <Component class="javax.swing.JButton" name="btnSuaNguoiDung">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/register.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                   </Properties>
@@ -497,7 +500,7 @@
                 <Component class="javax.swing.JButton" name="btnXoaNguoiDung">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/delete.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                   </Properties>
@@ -508,7 +511,7 @@
                 <Component class="javax.swing.JButton" name="btnXuatNguoiDung">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/export.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                   </Properties>
@@ -705,7 +708,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch chi nh&#xe1;nh">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -733,7 +736,7 @@
                 <Component class="javax.swing.JButton" name="btnSuaChiNhanh">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/register.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                   </Properties>
@@ -744,7 +747,7 @@
                 <Component class="javax.swing.JButton" name="btnXoaChiNhanh">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/delete.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                   </Properties>
@@ -756,7 +759,7 @@
                 <Component class="javax.swing.JButton" name="btnXuatChiNhanh">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/export.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                   </Properties>
@@ -812,7 +815,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" pref="870" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" pref="884" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -846,7 +849,7 @@
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane4" pref="477" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="476" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -994,7 +997,7 @@
                 <Component class="javax.swing.JButton" name="btnSuaDanhMuc">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/register.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                   </Properties>
@@ -1005,7 +1008,7 @@
                 <Component class="javax.swing.JButton" name="btnXoaDanhMuc">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/delete.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                   </Properties>
@@ -1017,7 +1020,7 @@
                 <Component class="javax.swing.JButton" name="btnXuatDanhMuc">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/export.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                   </Properties>
@@ -1336,7 +1339,7 @@
                     <Component class="javax.swing.JButton" name="btnXoaSanPham">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/delete.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                       </Properties>
@@ -1347,7 +1350,7 @@
                     <Component class="javax.swing.JButton" name="btnSuaSanPham">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/register.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                       </Properties>
@@ -1415,7 +1418,7 @@
                     <Component class="javax.swing.JButton" name="btnXuatFile">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/export.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                       </Properties>
@@ -1564,12 +1567,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="1316" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1321" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
                               <Component id="jPanelBanHang2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1618,8 +1621,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane15" alignment="0" min="-2" pref="236" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane15" min="-2" pref="236" max="-2" attributes="0"/>
+                                  <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
                           </Group>
@@ -1633,7 +1636,7 @@
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Th&#xf4;ng tin chi ti&#x1ebf;t nh&#x1ead;p h&#xe0;ng">
                               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                              <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                             </TitledBorder>
                           </Border>
                         </Property>
@@ -1643,13 +1646,18 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabel89" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel98" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel89" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel98" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel91" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                           <Component id="btnThemCTHDNH" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel91" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -1661,7 +1669,7 @@
                                                       <Component id="txtSoLuongCTHD2" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                                                       <Component id="txtMaCTHD2" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
+                                                  <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="btnSuaCTHDNH" min="-2" max="-2" attributes="0"/>
@@ -1683,7 +1691,7 @@
                                               </Group>
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Component id="btnXoaCTHDNH" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                                   <Component id="btnXuatCTHDNH" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1703,7 +1711,7 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel89" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtMaCTHD2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1731,7 +1739,6 @@
                                       <Component id="btnXoaCTHDNH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                                       <Component id="btnThemCTHDNH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1740,7 +1747,7 @@
                         <Component class="javax.swing.JButton" name="btnSuaCTHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/register.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                           </Properties>
@@ -1806,7 +1813,7 @@
                         <Component class="javax.swing.JButton" name="btnXuatCTHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/export.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                           </Properties>
@@ -1814,7 +1821,7 @@
                         <Component class="javax.swing.JButton" name="btnXoaCTHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/delete.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                           </Properties>
@@ -1837,7 +1844,7 @@
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Th&#xf4;ng tin nh&#x1ead;p h&#xe0;ng">
                               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                              <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                             </TitledBorder>
                           </Border>
                         </Property>
@@ -1939,7 +1946,7 @@
                         <Component class="javax.swing.JButton" name="btnSuaHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/register.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                           </Properties>
@@ -2007,7 +2014,7 @@
                         <Component class="javax.swing.JButton" name="btnXoaHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/delete.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                           </Properties>
@@ -2015,7 +2022,7 @@
                         <Component class="javax.swing.JButton" name="btnXuatHDNH">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/images/add.png"/>
+                              <Image iconType="3" name="/images/export.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                           </Properties>
@@ -2036,7 +2043,7 @@
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Danh s&#xe1;ch nh&#x1ead;p h&#xe0;ng">
                               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                              <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                             </TitledBorder>
                           </Border>
                         </Property>
@@ -2064,7 +2071,7 @@
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Danh s&#xe1;ch chi ti&#x1ebf;t nh&#x1ead;p h&#xe0;ng">
                               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                              <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                             </TitledBorder>
                           </Border>
                         </Property>
@@ -2118,7 +2125,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane8" pref="810" max="32767" attributes="0"/>
+                              <Component id="jScrollPane8" pref="771" max="32767" attributes="0"/>
                               <Component id="jScrollPane9" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -2155,7 +2162,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Th&#xf4;ng tin chi ti&#x1ebf;t h&#xf3;a &#x111;&#x1a1;n">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2177,29 +2184,35 @@
                                   <Component id="txtTongTienCTHD" min="-2" pref="100" max="-2" attributes="0"/>
                                   <Component id="txtSoLuongCTHD" min="-2" pref="100" max="-2" attributes="0"/>
                                   <Component id="txtMaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <Component id="btnSuaCTHD" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="txtDonGiaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="txtMaSPCTHD" min="-2" pref="100" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnSuaCTHD" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnXoaCTHD" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="txtDonGiaCTHD" min="-2" pref="100" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="txtMaSPCTHD" min="-2" pref="100" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnXuatCTHD" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2241,7 +2254,7 @@
                     <Component class="javax.swing.JButton" name="btnSuaCTHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/register.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                       </Properties>
@@ -2307,7 +2320,7 @@
                     <Component class="javax.swing.JButton" name="btnXuatCTHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/export.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                       </Properties>
@@ -2315,7 +2328,7 @@
                     <Component class="javax.swing.JButton" name="btnXoaCTHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/delete.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                       </Properties>
@@ -2328,7 +2341,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Th&#xf4;ng tin h&#xf3;a &#x111;&#x1a1;n">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2440,7 +2453,7 @@
                     <Component class="javax.swing.JButton" name="btnSuaHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/register.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                       </Properties>
@@ -2528,7 +2541,7 @@
                     <Component class="javax.swing.JButton" name="btnXoaHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/delete.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                       </Properties>
@@ -2536,7 +2549,7 @@
                     <Component class="javax.swing.JButton" name="btnXuatHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/export.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                       </Properties>
@@ -2557,7 +2570,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch h&#xf3;a &#x111;&#x1a1;n">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2585,7 +2598,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch chi ti&#x1ebf;t h&#xf3;a &#x111;&#x1a1;n">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2687,7 +2700,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch nh&#xe0; cung c&#x1ea5;p">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2751,6 +2764,9 @@
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblNhaCCMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -2760,7 +2776,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Th&#xf4;ng tin nh&#xe0; cung c&#x1ea5;p">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -2911,30 +2927,37 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnThemNCCMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSuaNCC">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/register.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSuaNCCMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnXoaNCC">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/delete.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnXoaNCCMouseClicked"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaNCCActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnXuatNCC">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/images/add.png"/>
+                      <Image iconType="3" name="/images/export.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t file"/>
                   </Properties>
@@ -3006,7 +3029,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Danh s&#xe1;ch kh&#xe1;ch h&#xe0;ng">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -3070,6 +3093,9 @@
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblKhachHangMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -3079,7 +3105,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Th&#xf4;ng tin kh&#xe1;ch h&#xe0;ng">
                           <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -3224,6 +3250,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnThemKHMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSuaKh">
                   <Properties>
@@ -3232,6 +3261,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSuaKhMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnXoaKH">
                   <Properties>
@@ -3241,6 +3273,7 @@
                     <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnXoaKHMouseClicked"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaKHActionPerformed"/>
                   </Events>
                 </Component>
@@ -3314,7 +3347,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="T&#xec;m ki&#x1ebf;m th&#xf4;ng tin b&#xe1;n h&#xe0;ng">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="ff" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -3324,11 +3357,11 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Component id="jLabel64" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="txtTuNgayBCBH" min="-2" pref="100" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Component id="jLabel65" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="txtDenNgayBCBH" min="-2" pref="100" max="-2" attributes="0"/>
@@ -3336,11 +3369,11 @@
                               <Component id="jLabel66" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="cbxChiNanhBC" min="-2" pref="143" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="btnLocBaoCaoBH" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="btnInBaoCaoBH" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="425" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3348,19 +3381,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel65" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtDenNgayBCBH" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel66" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btnLocBaoCaoBH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                                      <Component id="cbxChiNanhBC" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btnInBaoCaoBH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel64" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtTuNgayBCBH" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel65" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtDenNgayBCBH" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel66" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnLocBaoCaoBH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="cbxChiNanhBC" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnInBaoCaoBH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="txtTuNgayBCBH" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel64" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="33" max="32767" attributes="0"/>
                           </Group>
@@ -3399,7 +3428,7 @@
                     <Component class="javax.swing.JButton" name="btnLocBaoCaoBH">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/filter.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
                       </Properties>
@@ -3425,7 +3454,7 @@
                     <Component class="javax.swing.JButton" name="btnInBaoCaoBH">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/print.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="In"/>
                       </Properties>
@@ -3490,14 +3519,226 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <EmptySpace min="0" pref="1316" max="32767" attributes="0"/>
+                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
+                              <Component id="jPanelBCBanHang1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="508" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="507" max="32767" attributes="0"/>
+                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jPanelBCBanHang1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JPanel" name="jPanelBCBanHang1">
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jPanel22" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane11" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jPanel23" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel22" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jScrollPane11" min="-2" pref="281" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jPanel23" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Container class="javax.swing.JPanel" name="jPanel22">
+                      <Properties>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="T&#xec;m ki&#x1ebf;m th&#xf4;ng tin nh&#x1ead;p h&#xe0;ng">
+                              <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
+                            </TitledBorder>
+                          </Border>
+                        </Property>
+                      </Properties>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                                  <Component id="jLabel67" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtTuNgayBCNH" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <Component id="jLabel69" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="txtDenNgayBCNH" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="jLabel70" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="cbxChiNanhBC1" min="-2" pref="143" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="btnLocBaoCaoNH" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="btnInBaoCaoNH" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel69" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtDenNgayBCNH" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel70" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnLocBaoCaoNH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Component id="cbxChiNanhBC1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnInBaoCaoNH" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Component id="txtTuNgayBCNH" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel67" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jLabel67">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Times New Roman" size="14" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtTuNgayBCNH">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel69">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Times New Roman" size="14" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtDenNgayBCNH">
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel70">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Times New Roman" size="14" style="1"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Chi nh&#xe1;nh"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnLocBaoCaoNH">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/images/filter.png"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="L&#x1ecd;c"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLocBaoCaoNHMouseClicked"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JComboBox" name="cbxChiNanhBC1">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="4">
+                                <StringItem index="0" value="Item 1"/>
+                                <StringItem index="1" value="Item 2"/>
+                                <StringItem index="2" value="Item 3"/>
+                                <StringItem index="3" value="Item 4"/>
+                              </StringArray>
+                            </Property>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="btnInBaoCaoNH">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/images/print.png"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="In"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnInBaoCaoNHMouseClicked"/>
+                          </Events>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JScrollPane" name="jScrollPane11">
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Component class="javax.swing.JTable" name="tblBaoCaoNH">
+                          <Properties>
+                            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                              <Table columnCount="4" rowCount="4">
+                                <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                                <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                                <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                              </Table>
+                            </Property>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel23">
+                      <Properties>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                            <EtchetBorder/>
+                          </Border>
+                        </Property>
+                      </Properties>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="1288" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="66" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                    </Container>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
             </Container>
           </SubComponents>
         </Container>
@@ -3570,7 +3811,7 @@
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="B&#xe1;n h&#xe0;ng">
                           <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                          <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                          <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -3685,7 +3926,7 @@
                     <Component class="javax.swing.JButton" name="btnLuuHD">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/print.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="L&#x1b0;u h&#xf3;a &#x111;&#x1a1;n v&#xe0; in"/>
                       </Properties>
@@ -3741,7 +3982,7 @@
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Th&#xf4;ng tin m&#x1eb7;t h&#xe0;ng">
                               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
-                              <Color PropertyName="color" blue="ff" green="99" red="33" type="rgb"/>
+                              <Color PropertyName="color" blue="cc" green="66" red="0" type="rgb"/>
                             </TitledBorder>
                           </Border>
                         </Property>
@@ -3918,7 +4159,7 @@
                     <Component class="javax.swing.JButton" name="btnTimKH">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/find.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="T&#xec;m kh&#xe1;ch h&#xe0;ng"/>
                       </Properties>
@@ -3929,7 +4170,7 @@
                     <Component class="javax.swing.JButton" name="btnHuy">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/images/add.png"/>
+                          <Image iconType="3" name="/images/delete.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
                       </Properties>
@@ -4085,8 +4326,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="329" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="btnDangKyTK" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLayMatKhau" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnDangXuat" min="-2" max="-2" attributes="0"/>
@@ -4103,7 +4342,6 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnDangXuat" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnLayMatKhau" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnDangKyTK" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -4140,17 +4378,9 @@
         <Component class="javax.swing.JButton" name="btnLayMatKhau">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/add.png"/>
+              <Image iconType="3" name="/images/register.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Thay &#x111;&#x1ed5;i m&#x1ead;t kh&#x1ea9;u"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnDangKyTK">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/add.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; t&#xe0;i kho&#x1ea3;n"/>
           </Properties>
         </Component>
       </SubComponents>
