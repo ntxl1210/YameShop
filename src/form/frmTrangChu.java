@@ -3150,7 +3150,10 @@ public class frmTrangChu extends javax.swing.JFrame {
                 }
                 
                 JOptionPane.showMessageDialog(this, "Thêm hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-                this.dispose();
+                ((DefaultTableModel)tblHoaDonBan.getModel()).setRowCount(0);
+                setNullBH();
+                rowCount = tblHoaDonBan.getRowCount();
+                calculateTotalPrice(rowCount);
            }
            else
            {
