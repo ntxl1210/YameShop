@@ -1216,19 +1216,34 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNguoiDungMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblNguoiDung);
 
         btnThemNguoiDung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemNguoiDung.setText("Thêm");
+        btnThemNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemNguoiDungMouseClicked(evt);
+            }
+        });
 
         btnSuaNguoiDung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register.png"))); // NOI18N
         btnSuaNguoiDung.setText("Sửa");
+        btnSuaNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaNguoiDungMouseClicked(evt);
+            }
+        });
 
         btnXoaNguoiDung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         btnXoaNguoiDung.setText("Xóa");
-        btnXoaNguoiDung.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaNguoiDungActionPerformed(evt);
+        btnXoaNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaNguoiDungMouseClicked(evt);
             }
         });
 
@@ -3652,10 +3667,6 @@ public class frmTrangChu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnXuatNguoiDungActionPerformed
 
-    private void btnXoaNguoiDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaNguoiDungActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXoaNguoiDungActionPerformed
-
     private void btnLuuHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuHDActionPerformed
         // TODO add your handling code here:
         int rowCount = tblHoaDonBan.getModel().getRowCount();
@@ -4211,6 +4222,60 @@ public class frmTrangChu extends javax.swing.JFrame {
     private void btnInBaoCaoNHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInBaoCaoNHMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnInBaoCaoNHMouseClicked
+
+    private void tblNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNguoiDungMouseClicked
+       int row = tblNguoiDung.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel(); 
+        String sql = "select * FROM nguoi_dung WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        ResultSet rs = cls.excuteQueryGetTable(sql);
+        try {
+            rs.next();
+            txtTaiKhoan.setText(rs.getString("tai_khoan"));
+            txtTen.setText(rs.getString("ten"));
+            txtSoDienThoai.setText(rs.getString("sdt"));
+            int cvindex = cbxCCChucvu.indexOf(rs.getInt("ma_cv"));
+            int cnindex = cbxCCCN.indexOf(rs.getInt("ma_cn"));
+            cbxChiNanh.setSelectedIndex(cnindex);
+            cbxChucVu.setSelectedIndex(cvindex);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_tblNguoiDungMouseClicked
+
+    private void btnThemNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemNguoiDungMouseClicked
+         int  ma_cn = cbxCCCN.get(cbxChiNanh.getSelectedIndex());
+      int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
+        String sql = "INSERT  INTO  nguoi_dung ([tai_khoan], [mat_khau],[ten],[sdt],[email],[dia_chi],[gioi_tinh],[ma_cv],[ma_cn],[luong]) VALUES ('"+txtTaiKhoan.getText()+"','1',N'"+txtTen.getText()+"','"+txtSoDienThoai.getText()+"','1','1','nam',N'"+ma_cv+"',N'"+ma_cn+"',40000)";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Thêm người dùng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadUserTable();
+    }//GEN-LAST:event_btnThemNguoiDungMouseClicked
+
+    private void btnSuaNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaNguoiDungMouseClicked
+    
+            int row = tblNguoiDung.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel();
+        int id = (int)models.getValueAt(row, 0);
+        int  ma_cn = cbxCCCN.get(cbxChiNanh.getSelectedIndex());
+      int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
+      String sql = "UPDATE nguoi_dung SET tai_khoan = '"+txtTaiKhoan.getText()+"', ten = N'"+txtTen.getText()+"',sdt = N'"+txtSoDienThoai.getText()+"',ma_cv = "+ma_cv+",ma_cn = "+ma_cn+"  WHERE id = '"+id+"'";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Chỉnh sửa người dùng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+           LoadUserTable();
+    }//GEN-LAST:event_btnSuaNguoiDungMouseClicked
+
+    private void btnXoaNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaNguoiDungMouseClicked
+        int row = tblNguoiDung.getSelectedRow();
+        
+        DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel(); 
+        String sql = "DELETE FROM nguoi_dung WHERE id = "+(int)models.getValueAt(row, 0)+"";
+        cls.excuteQueryUpdateDB(sql);
+        JOptionPane.showMessageDialog(this, "Xóa người dùng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        LoadUserTable();
+    }//GEN-LAST:event_btnXoaNguoiDungMouseClicked
 
     private void btnLayMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayMatKhauActionPerformed
         // TODO add your handling code here:
