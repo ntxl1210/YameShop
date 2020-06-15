@@ -30,6 +30,7 @@ import java.text.ParseException;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import KhachHang.KhachHang;
+import SHAHashing.SHAHashing;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -59,9 +60,12 @@ public class frmTrangChu extends javax.swing.JFrame {
     List<Integer> listKHID = new ArrayList<Integer>();
     List<Integer> listSPID = new ArrayList<Integer>();
     List<Integer> listHDID = new ArrayList<Integer>();
+    List<Integer> listPNID = new ArrayList<Integer>();
+    List<Integer> listNCCID = new ArrayList<Integer>();
     File file, newFile;
     BufferedImage bi;
     int tonKho = 0;
+    int soLuong = 0;
   
     /**
      * Creates new form frmTrangChu
@@ -135,6 +139,7 @@ public class frmTrangChu extends javax.swing.JFrame {
             LoadNhaCC();
             loadKhachHang();
             LoadHoaDon();
+            LoadPhieuNhap();
         }
     }
     public static boolean isValidDate(String inDate) {
@@ -155,6 +160,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         try {
             String header[] = {"Id", "Mã nhà cung cấp", "Tên nhà cung cấp","Địa chỉ","Số điện thoại","Email","Tổng tiền"};
             DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
             Vector data = null;
             tblModel.setRowCount(0);
             ResultSet rs = cls.excuteQueryGetTable(sql);
@@ -170,9 +176,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 
                 // Thêm một dòng vào table model
                 tblModel.addRow(data);
-                
+                cbModel.addElement(rs.getString("ten_ncc"));
+                listNCCID.add(rs.getInt("id"));
                 }
             tblNhaCC.setModel(tblModel);
+            cbNCCNH.setModel(cbModel);
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -268,6 +276,96 @@ public class frmTrangChu extends javax.swing.JFrame {
         }
     }
     
+    private void LoadPhieuNhap()
+    {
+        String  sql = "SELECT p.id, p.ma_pn, c.ten_cn, n.ten, ncc.ten_ncc, p.ngay_nhap, p.tong_tien "
+                + "FROM phieu_nhap p INNER JOIN chi_nhanh c ON p.ma_cn=c.id INNER JOIN nguoi_dung n ON p.ma_nv=n.id "
+                + "INNER JOIN nha_cung_cap ncc ON p.ma_ncc=ncc.id";
+        
+        try {
+            String header[] = {"Id", "Mã phiếu nhập", "Chi nhánh", "Nhân viên", "Nhà cung cấp", "Ngày nhập", "Tổng tiền"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getInt("id"));
+                data.add(rs.getString("ma_pn"));
+                data.add(rs.getString("ten_cn"));
+                data.add(rs.getString("ten"));
+                data.add(rs.getString("ten_ncc"));
+                data.add(rs.getDate("ngay_nhap"));
+                data.add(rs.getDouble("tong_tien"));
+                
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                cbModel.addElement(rs.getString("ma_pn"));
+                listPNID.add(rs.getInt("id"));
+            }
+            tblHoaDonNH.setModel(tblModel);
+            cbMAPN.setModel(cbModel);
+        } catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public void loadCTPN(int ma_pn)
+    {
+        String sql = "SELECT p.ma_pn, s.ten_sp, c.so_luong_nhap, c.don_gia, c.tong_tien "
+                + "FROM ct_phieu_nhap c INNER JOIN phieu_nhap p ON c.ma_pn=p.id INNER JOIN san_pham s ON c.ma_sp=s.id "
+                + "WHERE c.ma_pn="+ma_pn;
+        try {
+            String header[] = {"Mã phiếu nhập", "Sản phẩm", "Số lượng", "Đơn bán", "Thành tiền"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getString("ma_pn"));
+                data.add(rs.getString("ten_sp"));
+                data.add(rs.getInt("so_luong_nhap"));
+                data.add(rs.getFloat("don_gia"));
+                data.add(rs.getDouble("tong_tien"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                }
+            tblCTHDNH.setModel(tblModel);
+        } 
+        catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
+    public void loadCTPN()
+    {
+        String sql = "SELECT p.ma_pn, s.ten_sp, c.so_luong_nhap, c.don_gia, c.tong_tien "
+                + "FROM ct_phieu_nhap c INNER JOIN phieu_nhap p ON c.ma_pn=p.id INNER JOIN san_pham s ON c.ma_sp=s.id ";
+        try {
+            String header[] = {"Mã phiếu nhập", "Sản phẩm", "Số lượng", "Đơn bán", "Thành tiền"};
+            DefaultTableModel tblModel = new DefaultTableModel(header,0);
+            Vector data = null;
+            tblModel.setRowCount(0);
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            while (rs.next()) {
+                data = new Vector();
+                data.add(rs.getString("ma_pn"));
+                data.add(rs.getString("ten_sp"));
+                data.add(rs.getInt("so_luong_nhap"));
+                data.add(rs.getFloat("don_gia"));
+                data.add(rs.getDouble("tong_tien"));
+                // Thêm một dòng vào table model
+                tblModel.addRow(data);
+                }
+            tblCTHDNH.setModel(tblModel);
+        } 
+        catch (SQLException ex) {
+            System.err.println("Cannot connect database, " + ex);
+        }
+    }
+    
     public void bindingValuesHD(int row)
     {
         txtMaHoaDon.setText(tblHoaDon.getModel().getValueAt(row, 1).toString());
@@ -285,6 +383,24 @@ public class frmTrangChu extends javax.swing.JFrame {
         cbSanPham.setSelectedItem(tblCTHD.getModel().getValueAt(row, 1).toString());
         txtSoLuongCTHD.setText(tblCTHD.getModel().getValueAt(row, 2).toString());
         txtDonGiaCTHD.setText(tblCTHD.getModel().getValueAt(row, 3).toString());
+    }
+    
+    public void bindingValuesPN(int row)
+    {
+        txtMaPhieuNHap.setText(tblHoaDonNH.getModel().getValueAt(row, 1).toString());
+        cbChiNhanhNH.setSelectedItem(tblHoaDonNH.getModel().getValueAt(row, 2).toString());
+        cbNhanVienNH.setSelectedItem(tblHoaDonNH.getModel().getValueAt(row, 3).toString());
+        cbNCCNH.setSelectedItem(tblHoaDonNH.getModel().getValueAt(row, 4).toString());
+        txtNgayLap.setText(tblHoaDonNH.getModel().getValueAt(row, 5).toString());
+        txtTongTienHD2.setText(tblHoaDonNH.getModel().getValueAt(row, 6).toString());
+    }
+    
+    public void bindingValuesCTPN(int row)
+    {
+        cbMAPN.setSelectedItem(tblCTHDNH.getModel().getValueAt(row, 0).toString());
+        cbSanPham.setSelectedItem(tblCTHDNH.getModel().getValueAt(row, 1).toString());
+        txtSoLuongCTHD2.setText(tblCTHDNH.getModel().getValueAt(row, 2).toString());
+        txtDonGiaCTHD2.setText(tblCTHDNH.getModel().getValueAt(row, 3).toString());
     }
     
     private void loadKhachHang()
@@ -334,6 +450,7 @@ public class frmTrangChu extends javax.swing.JFrame {
            DefaultComboBoxModel cmbModel = new DefaultComboBoxModel(data);
             cbxChiNanhBC.setModel(cmbModel);
             cbxChiNanh.setModel(cmbModel);
+            cbChiNhanhNH.setModel(cmbModel);
         } catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
         }
@@ -388,6 +505,7 @@ public class frmTrangChu extends javax.swing.JFrame {
                 }
             tblNguoiDung.setModel(tblModel);
             cbNhanVien.setModel(cbModel);
+            cbNhanVienNH.setModel(cbModel);
         }
         catch (SQLException ex) {
             System.err.println("Cannot connect database, " + ex);
@@ -419,6 +537,8 @@ public class frmTrangChu extends javax.swing.JFrame {
         txtThanhTien.setEditable(false);
         txtTongTien.setEditable(false);
         txtDonGiaCTHD.setEditable(false);
+        txtTongTienHD.setEditable(false);
+        txtTongTienHD2.setEditable(false);
     }
     
     private void loadDM()
@@ -515,6 +635,7 @@ public class frmTrangChu extends javax.swing.JFrame {
                 listSPID.add(rs.getInt("id"));
                 }
             cbSanPham.setModel(cbModel);
+            cbSanPhamNH.setModel(cbModel);
             tblSanPham.setModel(tblModel);
     
         } catch (SQLException ex) {
@@ -729,6 +850,37 @@ public class frmTrangChu extends javax.swing.JFrame {
         }
     }
      
+    public void updateTotalPricePN(int ma_pn)
+    {
+        String sql = "select sum(tong_tien) as tong_tien from ct_phieu_nhap where ma_pn="+ma_pn+"";
+        Float tongTien = 0.f;
+        try
+        {
+            ResultSet rs = cls.excuteQueryGetTable(sql);
+            if(rs.next())
+                tongTien = rs.getFloat("tong_tien");
+            
+            sql = "update phieu_nhap set tong_tien='"+tongTien+"' where id="+ma_pn+"";
+            cls.excuteQueryUpdateDB(sql);
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateSP(int ma_sp, int ton_kho, int so_luong, float gia_nhap)
+    {
+        String sql = "update san_pham set ton_kho="+ton_kho+", so_luong="+so_luong+", gia_nhap="+gia_nhap+" where id="+ma_sp;
+        cls.excuteQueryUpdateDB(sql);
+    }
+    
+    public void updateSP1(int ma_sp, int ton_kho, int so_luong)
+    {
+        String sql = "update san_pham set ton_kho="+ton_kho+", so_luong="+so_luong+" where id="+ma_sp;
+        cls.excuteQueryUpdateDB(sql);
+    }
+     
     public void updateRemainingQuantity(int ma_sp, int ton_kho)
     {
         String sql = "update san_pham set ton_kho="+ton_kho+" where id="+ma_sp;
@@ -861,30 +1013,23 @@ public class frmTrangChu extends javax.swing.JFrame {
         jPanel18 = new javax.swing.JPanel();
         btnSuaCTHDNH = new javax.swing.JButton();
         jLabel89 = new javax.swing.JLabel();
-        txtMaCTHD2 = new javax.swing.JTextField();
         jLabel90 = new javax.swing.JLabel();
-        txtMaSPCTHD2 = new javax.swing.JTextField();
         jLabel91 = new javax.swing.JLabel();
         txtSoLuongCTHD2 = new javax.swing.JTextField();
         jLabel92 = new javax.swing.JLabel();
         txtDonGiaCTHD2 = new javax.swing.JTextField();
-        jLabel93 = new javax.swing.JLabel();
-        txtTongTienCTHDNH = new javax.swing.JTextField();
         btnThemCTHDNH = new javax.swing.JButton();
         btnXuatCTHDNH = new javax.swing.JButton();
         btnXoaCTHDNH = new javax.swing.JButton();
-        jLabel98 = new javax.swing.JLabel();
-        txtSoLuongCTHD3 = new javax.swing.JTextField();
+        cbMAPN = new javax.swing.JComboBox<>();
+        cbSanPhamNH = new javax.swing.JComboBox<>();
         jPanel19 = new javax.swing.JPanel();
         btnSuaHDNH = new javax.swing.JButton();
         jLabel94 = new javax.swing.JLabel();
         txtMaPhieuNHap = new javax.swing.JTextField();
         jLabel95 = new javax.swing.JLabel();
-        txtNCC = new javax.swing.JTextField();
         jLabel96 = new javax.swing.JLabel();
-        txtMaNhanVienNH = new javax.swing.JTextField();
         jLabel97 = new javax.swing.JLabel();
-        txtChiNhanhNH = new javax.swing.JTextField();
         jLabel100 = new javax.swing.JLabel();
         txtNgayLapNH = new javax.swing.JTextField();
         jLabel101 = new javax.swing.JLabel();
@@ -892,6 +1037,9 @@ public class frmTrangChu extends javax.swing.JFrame {
         btnXoaHDNH = new javax.swing.JButton();
         btnXuatHDNH = new javax.swing.JButton();
         btnThemHDNH = new javax.swing.JButton();
+        cbNhanVienNH = new javax.swing.JComboBox<>();
+        cbChiNhanhNH = new javax.swing.JComboBox<>();
+        cbNCCNH = new javax.swing.JComboBox<>();
         jScrollPane14 = new javax.swing.JScrollPane();
         tblHoaDonNH = new javax.swing.JTable();
         jScrollPane15 = new javax.swing.JScrollPane();
@@ -1877,12 +2025,17 @@ public class frmTrangChu extends javax.swing.JFrame {
 
         btnSuaCTHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register.png"))); // NOI18N
         btnSuaCTHDNH.setText("Sửa");
+        btnSuaCTHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaCTHDNHActionPerformed(evt);
+            }
+        });
 
         jLabel89.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel89.setText("Mã phiếu nhập");
 
         jLabel90.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel90.setText("Mã sản phẩm");
+        jLabel90.setText("Sản phẩm");
 
         jLabel91.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel91.setText("Số lượng nhập");
@@ -1890,68 +2043,68 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel92.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel92.setText("Đơn giá");
 
-        jLabel93.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel93.setText("Tổng tiền");
-
         btnThemCTHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemCTHDNH.setText("Thêm");
+        btnThemCTHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemCTHDNHActionPerformed(evt);
+            }
+        });
 
         btnXuatCTHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/export.png"))); // NOI18N
         btnXuatCTHDNH.setText("Xuất file");
 
         btnXoaCTHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         btnXoaCTHDNH.setText("Xóa");
+        btnXoaCTHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaCTHDNHActionPerformed(evt);
+            }
+        });
 
-        jLabel98.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel98.setText("Ngày nhập");
+        cbMAPN.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbSanPhamNH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbSanPhamNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSanPhamNHActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel89)
-                            .addComponent(jLabel98)
-                            .addComponent(jLabel91)))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(btnThemCTHDNH)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addComponent(jLabel91))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSoLuongCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMaCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 16, Short.MAX_VALUE))
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(btnSuaCTHDNH)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                    .addComponent(jLabel92)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtDonGiaCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel18Layout.createSequentialGroup()
-                                    .addComponent(jLabel90)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtMaSPCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel18Layout.createSequentialGroup()
-                                .addComponent(btnXoaCTHDNH)
-                                .addGap(40, 40, 40)
-                                .addComponent(btnXuatCTHDNH))))
+                            .addComponent(txtSoLuongCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbMAPN, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(txtSoLuongCTHD3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel93)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTongTienCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnThemCTHDNH)
+                        .addGap(54, 54, 54)
+                        .addComponent(btnSuaCTHDNH)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel92)
+                    .addComponent(jLabel90)
+                    .addComponent(btnXoaCTHDNH))
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbSanPhamNH, 0, 126, Short.MAX_VALUE)
+                            .addComponent(txtDonGiaCTHD2)))
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(btnXuatCTHDNH)))
                 .addGap(23, 23, 23))
         );
         jPanel18Layout.setVerticalGroup(
@@ -1960,45 +2113,45 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel89)
-                    .addComponent(txtMaCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel90)
-                    .addComponent(txtMaSPCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbSanPhamNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMAPN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel91)
                     .addComponent(txtSoLuongCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel92)
                     .addComponent(txtDonGiaCTHD2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel93)
-                    .addComponent(txtTongTienCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoLuongCTHD3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel98))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnThemCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSuaCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXuatCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoaCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnXuatCTHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin nhập hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 102, 204))); // NOI18N
 
         btnSuaHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/register.png"))); // NOI18N
         btnSuaHDNH.setText("Sửa");
+        btnSuaHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaHDNHActionPerformed(evt);
+            }
+        });
 
         jLabel94.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel94.setText("Mã phiếu nhập");
 
         jLabel95.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel95.setText("Mã nhà cung cấp");
+        jLabel95.setText("Nhà cung cấp");
 
         jLabel96.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel96.setText("Mã nhân viên");
+        jLabel96.setText("Nhân viên");
 
         jLabel97.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel97.setText("Mã chi nhánh");
+        jLabel97.setText("Chi nhánh");
 
         jLabel100.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel100.setText("Ngày nhập");
@@ -2006,14 +2159,32 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel101.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel101.setText("Tổng tiền");
 
+        txtTongTienHD2.setText("0");
+
         btnXoaHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         btnXoaHDNH.setText("Xóa");
+        btnXoaHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaHDNHActionPerformed(evt);
+            }
+        });
 
         btnXuatHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/export.png"))); // NOI18N
         btnXuatHDNH.setText("Xuất file");
 
         btnThemHDNH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         btnThemHDNH.setText("Thêm");
+        btnThemHDNH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemHDNHActionPerformed(evt);
+            }
+        });
+
+        cbNhanVienNH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbChiNhanhNH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbNCCNH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -2033,32 +2204,31 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(btnSuaHDNH)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnXoaHDNH)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnXuatHDNH))
-                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel19Layout.createSequentialGroup()
-                            .addComponent(txtMaPhieuNHap, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel95)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel19Layout.createSequentialGroup()
-                            .addComponent(txtMaNhanVienNH, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(jLabel97)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtChiNhanhNH, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel19Layout.createSequentialGroup()
-                            .addComponent(txtNgayLapNH, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel101)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtTongTienHD2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtMaPhieuNHap, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel95)
+                        .addGap(9, 9, 9)
+                        .addComponent(cbNCCNH, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cbNhanVienNH, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNgayLapNH, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(btnSuaHDNH)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel97, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel101, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnXoaHDNH, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtTongTienHD2)
+                                .addComponent(cbChiNhanhNH, 0, 135, Short.MAX_VALUE))
+                            .addComponent(btnXuatHDNH, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(18, 18, 18))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2068,14 +2238,14 @@ public class frmTrangChu extends javax.swing.JFrame {
                     .addComponent(jLabel94)
                     .addComponent(txtMaPhieuNHap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel95)
-                    .addComponent(txtNCC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbNCCNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel96)
-                    .addComponent(txtMaNhanVienNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel97)
-                    .addComponent(txtChiNhanhNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                    .addComponent(cbNhanVienNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbChiNhanhNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel100)
                     .addComponent(txtNgayLapNH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2084,9 +2254,9 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSuaHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoaHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXuatHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThemHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoaHDNH, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -2103,6 +2273,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblHoaDonNH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonNHMouseClicked(evt);
+            }
+        });
         jScrollPane14.setViewportView(tblHoaDonNH);
 
         jScrollPane15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách chi tiết nhập hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 102, 204))); // NOI18N
@@ -2118,6 +2293,11 @@ public class frmTrangChu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCTHDNH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCTHDNHMouseClicked(evt);
+            }
+        });
         jScrollPane15.setViewportView(tblCTHDNH);
 
         javax.swing.GroupLayout jPanelBanHang2Layout = new javax.swing.GroupLayout(jPanelBanHang2);
@@ -2143,9 +2323,9 @@ public class frmTrangChu extends javax.swing.JFrame {
                     .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelBanHang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelBanHang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(211, 211, 211))
         );
 
@@ -2153,16 +2333,16 @@ public class frmTrangChu extends javax.swing.JFrame {
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1321, Short.MAX_VALUE)
+            .addGap(0, 1347, Short.MAX_VALUE)
             .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel17Layout.createSequentialGroup()
-                    .addGap(0, 21, Short.MAX_VALUE)
+                    .addGap(0, 12, Short.MAX_VALUE)
                     .addComponent(jPanelBanHang2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 21, Short.MAX_VALUE)))
+                    .addGap(0, 11, Short.MAX_VALUE)))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 725, Short.MAX_VALUE)
             .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel17Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -3540,69 +3720,78 @@ public class frmTrangChu extends javax.swing.JFrame {
 
     private void btnSuaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaSanPhamActionPerformed
         // TODO add your handling code here:
-        int row = tblSanPham.getSelectedRow();
-        int index = cbxDanhMuc.getSelectedIndex();
-        
-        DefaultTableModel models = (DefaultTableModel)tblSanPham.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        
-        String duongDan = "src/images/SanPham/" + txtMaSanPham.getText();
-        
-        if(regex.checkTTSP(txtSoLuong.getText(), regex.slc) && regex.checkTTSP(txtGiaNhap.getText(), regex.giac) && regex.checkTTSP(txtGiaBan.getText(), regex.giac))
+        try
         {
-            String sql = "UPDATE san_pham "
-                    + "SET ma_sp = '"+txtMaSanPham.getText()+"', ten_sp = N'"+txtTenSanPham.getText()+"', kich_thuoc = N'"+txtKichThuoc.getText()+"',"
-                    + " so_luong =  '"+txtSoLuong.getText()+"', ton_kho = '"+txtTonKho.getText()+"', mo_ta = N'"+textAreaMoTa.getText()+"',"
-                    + " hinh_anh = N'"+duongDan+"', gia_nhap = '"+txtGiaNhap.getText()+"', gia_ban = '"+txtGiaBan.getText()+"', ma_dm = '"+getDMID(index)+"' "
-                    + "WHERE id = '"+id+"'";
-           
-            
-            try
+            int row = tblSanPham.getSelectedRow();
+            int index = cbxDanhMuc.getSelectedIndex();
+            DefaultTableModel models = (DefaultTableModel)tblSanPham.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            String duongDan = "src/images/SanPham/" + txtMaSanPham.getText();
+            if(regex.checkTTSP(txtSoLuong.getText(), regex.slc) && regex.checkTTSP(txtGiaNhap.getText(), regex.giac) && regex.checkTTSP(txtGiaBan.getText(), regex.giac))
             {
-                File saveFile = new File(duongDan);
-                if(!saveFile.exists())
+                String sql = "UPDATE san_pham "
+                        + "SET ma_sp = '"+txtMaSanPham.getText()+"', ten_sp = N'"+txtTenSanPham.getText()+"', kich_thuoc = N'"+txtKichThuoc.getText()+"',"
+                        + " so_luong =  '"+txtSoLuong.getText()+"', ton_kho = '"+txtTonKho.getText()+"', mo_ta = N'"+textAreaMoTa.getText()+"',"
+                        + " hinh_anh = N'"+duongDan+"', gia_nhap = '"+txtGiaNhap.getText()+"', gia_ban = '"+txtGiaBan.getText()+"', ma_dm = '"+getDMID(index)+"' "
+                        + "WHERE id = '"+id+"'";
+                try
                 {
-                    saveFile.mkdirs();
-                    saveFile.createNewFile();
-                    ImageIO.write(bi, "png", saveFile);
+                    File saveFile = new File(duongDan);
+                    if(!saveFile.exists())
+                    {
+                        saveFile.mkdirs();
+                        saveFile.createNewFile();
+                        ImageIO.write(bi, "png", saveFile);
+                    }
+                    else
+                    {
+                        saveFile.delete();
+                        saveFile.mkdirs();
+                        saveFile.createNewFile();
+                        ImageIO.write(bi, "png", saveFile);
+                    }
+                    cls.excuteQueryUpdateDB(sql);
+                    JOptionPane.showMessageDialog(this, "Sửa sản phẩm "+txtMaSanPham.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                    loadSP();
                 }
-                else
+                catch(IOException e)
                 {
-                    saveFile.delete();
-                    saveFile.mkdirs();
-                    saveFile.createNewFile();
-                    ImageIO.write(bi, "png", saveFile);
+                    e.printStackTrace();
                 }
-                cls.excuteQueryUpdateDB(sql);
-                JOptionPane.showMessageDialog(this, "Sửa sản phẩm "+txtMaSanPham.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-                loadSP();
             }
-            catch(IOException e)
+            else
             {
-                e.printStackTrace();
+               JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
             }
         }
-        else
+        catch(ArrayIndexOutOfBoundsException e)
         {
-           JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSuaSanPhamActionPerformed
 
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
         // TODO add your handling code here:
-        int row = tblSanPham.getSelectedRow();
-        
-        DefaultTableModel models = (DefaultTableModel)tblSanPham.getModel(); 
-        
-        String duongDan = models.getValueAt(row, 7).toString();
-        File file = new File(duongDan);
-        if(file.exists())
-            file.delete();
-        
-        String sql = "DELETE FROM san_pham WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa sản phẩm "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        loadSP();
+        try
+        {
+            int row = tblSanPham.getSelectedRow();
+
+            DefaultTableModel models = (DefaultTableModel)tblSanPham.getModel(); 
+
+            String duongDan = models.getValueAt(row, 7).toString();
+            File file = new File(duongDan);
+            if(file.exists())
+                file.delete();
+
+            String sql = "DELETE FROM san_pham WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa sản phẩm "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            loadSP();
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
 
     private void btnThemSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSanPhamActionPerformed
@@ -3776,8 +3965,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         String value = (String)tblSanPhamBH.getModel().getValueAt(row, 0);
         int tonKho = (int)tblSanPhamBH.getModel().getValueAt(row, 2);
         int result = existsInTable(tblHoaDonBan, value);
-       
-        
+
         if(result == -1)
         {
             String  sql = "SELECT gia_ban, ma_sp, ton_kho, ten_sp,kich_thuoc FROM san_pham where ma_sp = '"+tblSanPhamBH.getModel().getValueAt(row, 0)+"' and ton_kho > 0";
@@ -3824,9 +4012,7 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemKhachHangMouseClicked
 
     private void tblDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhMucMouseClicked
-       int row = tblDanhMuc.rowAtPoint(evt.getPoint());
-        
-        
+        int row = tblDanhMuc.rowAtPoint(evt.getPoint());
         DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel();
         txtMaDanhMuc.setText(models.getValueAt(row, 1).toString());
         txtTenDanhMuc.setText(models.getValueAt(row, 2).toString());
@@ -3841,24 +4027,36 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemDanhMucMouseClicked
 
     private void btnSuaDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaDanhMucActionPerformed
-        int row = tblDanhMuc.getSelectedRow();
+        try {
+            int row = tblDanhMuc.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        String sql = "UPDATE danh_muc_sp SET ma_dm = '"+txtMaDanhMuc.getText()+"', ten_dm = N'"+txtTenDanhMuc.getText()+"'  WHERE id = '"+id+"'";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaDanhMuc.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        loadDM();
+            DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            String sql = "UPDATE danh_muc_sp SET ma_dm = '"+txtMaDanhMuc.getText()+"', ten_dm = N'"+txtTenDanhMuc.getText()+"'  WHERE id = '"+id+"'";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaDanhMuc.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            loadDM();
+        } catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn danh mục cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSuaDanhMucActionPerformed
 
     private void btnXoaDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaDanhMucMouseClicked
-        int row = tblDanhMuc.getSelectedRow();
+        try
+        {
+            int row = tblDanhMuc.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel(); 
-        String sql = "DELETE FROM danh_muc_sp WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        loadDM();
+            DefaultTableModel models = (DefaultTableModel)tblDanhMuc.getModel(); 
+            String sql = "DELETE FROM danh_muc_sp WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            loadDM();
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn danh mục cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnXoaDanhMucMouseClicked
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
@@ -4107,24 +4305,32 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemChiNhanh3MouseClicked
 
     private void btnSuaChiNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaChiNhanhMouseClicked
-        int row = tblChiNhanh.getSelectedRow();
+        try {
+            int row = tblChiNhanh.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        String sql = "UPDATE chi_nhanh SET ma_cn = '"+txtMaChiNhanh.getText()+"', ten_cn = N'"+txtTenChiNhanh.getText()+"', sdt = N'"+txtSdtChiNhanh.getText()+"',dia_chi = N'"+txtDiaChiChiNhanh.getText()+"'  WHERE id = '"+id+"'";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        LoadChiNhanh();
+            DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            String sql = "UPDATE chi_nhanh SET ma_cn = '"+txtMaChiNhanh.getText()+"', ten_cn = N'"+txtTenChiNhanh.getText()+"', sdt = N'"+txtSdtChiNhanh.getText()+"',dia_chi = N'"+txtDiaChiChiNhanh.getText()+"'  WHERE id = '"+id+"'";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Sửa chi nhánh "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            LoadChiNhanh();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chi nhánh cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
     }//GEN-LAST:event_btnSuaChiNhanhMouseClicked
 
     private void btnXoaChiNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaChiNhanhMouseClicked
-         int row = tblChiNhanh.getSelectedRow();
+        try {
+             int row = tblChiNhanh.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel(); 
-        String sql = "DELETE FROM chi_nhanh WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa danh muc "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        LoadChiNhanh();
+            DefaultTableModel models = (DefaultTableModel)tblChiNhanh.getModel(); 
+            String sql = "DELETE FROM chi_nhanh WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa chi nhánh "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            LoadChiNhanh();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chi nhánh cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
     }//GEN-LAST:event_btnXoaChiNhanhMouseClicked
 
     private void tblHoaDonBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonBanMouseClicked
@@ -4154,29 +4360,38 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemNCCMouseClicked
 
     private void btnSuaNCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaNCCMouseClicked
-        int row = tblNhaCC.getSelectedRow();
+        try{
+            int row = tblNhaCC.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        String sql = "UPDATE nha_cung_cap SET ma_ncc = '"+txtNhaCC.getText()+"', ten_ncc = N'"+txtTenNhaCC.getText()+"', sdt = N'"+txtSdtNCC.getText()+"',dia_chi = N'"+txtDiaChiNCC.getText()+"',email = N'"+txtEmail.getText()+"',tong_tien_nhap = "+txtTongTienNhap.getText()+"  WHERE id = '"+id+"'";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        LoadNhaCC();
+            DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            String sql = "UPDATE nha_cung_cap SET ma_ncc = '"+txtNhaCC.getText()+"', ten_ncc = N'"+txtTenNhaCC.getText()+"', sdt = N'"+txtSdtNCC.getText()+"',dia_chi = N'"+txtDiaChiNCC.getText()+"',email = N'"+txtEmail.getText()+"',tong_tien_nhap = "+txtTongTienNhap.getText()+"  WHERE id = '"+id+"'";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Sửa nhà cung cấp "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            LoadNhaCC();
+        } catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
     }//GEN-LAST:event_btnSuaNCCMouseClicked
 
     private void btnXoaNCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaNCCMouseClicked
-         int row = tblNhaCC.getSelectedRow();
+        try{
+            int row = tblNhaCC.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel(); 
-        String sql = "DELETE FROM nha_cung_cap WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        LoadNhaCC();
+            DefaultTableModel models = (DefaultTableModel)tblNhaCC.getModel(); 
+            String sql = "DELETE FROM nha_cung_cap WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa nhà cung cấp "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            LoadNhaCC();
+        } catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp cần xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+        }
     }//GEN-LAST:event_btnXoaNCCMouseClicked
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         int row = tblKhachHang.rowAtPoint(evt.getPoint());
-        
         
         DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel();
         txtMaKH.setText(models.getValueAt(row, 1).toString());
@@ -4195,24 +4410,40 @@ public class frmTrangChu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemKHMouseClicked
 
     private void btnSuaKhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaKhMouseClicked
-        int row = tblKhachHang.getSelectedRow();
+        try
+        {
+            int row = tblKhachHang.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        String sql = "UPDATE khach_hang SET ma_kh = '"+txtMaKH.getText()+"', ten_kh = N'"+txtTenKH.getText()+"', sdt = N'"+txtSdtKH.getText()+"',dia_chi = N'"+txtDiaChiKH.getText()+"',email = N'"+txtEmailKH.getText()+"',tong_tien = "+txtTongTienMua.getText()+"  WHERE id = '"+id+"'";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        loadKhachHang();
+            DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            String sql = "UPDATE khach_hang SET ma_kh = '"+txtMaKH.getText()+"', ten_kh = N'"+txtTenKH.getText()+"', sdt = N'"+txtSdtKH.getText()+"',dia_chi = N'"+txtDiaChiKH.getText()+"',email = N'"+txtEmailKH.getText()+"',tong_tien = "+txtTongTienMua.getText()+"  WHERE id = '"+id+"'";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Sửa danh muc "+txtMaChiNhanh.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            loadKhachHang();
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+        
     }//GEN-LAST:event_btnSuaKhMouseClicked
 
     private void btnXoaKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaKHMouseClicked
-        int row = tblKhachHang.getSelectedRow();
+        try
+        {
+            int row = tblKhachHang.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel(); 
-        String sql = "DELETE FROM khach_hang WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa khách hàng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        loadKhachHang();
+            DefaultTableModel models = (DefaultTableModel)tblKhachHang.getModel(); 
+            String sql = "DELETE FROM khach_hang WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa khách hàng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            loadKhachHang();
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+        
     }//GEN-LAST:event_btnXoaKHMouseClicked
 
     private void btnLocBaoCaoNHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLocBaoCaoNHMouseClicked
@@ -4246,35 +4477,47 @@ public class frmTrangChu extends javax.swing.JFrame {
 
     private void btnThemNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemNguoiDungMouseClicked
          int  ma_cn = cbxCCCN.get(cbxChiNanh.getSelectedIndex());
-      int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
-        String sql = "INSERT  INTO  nguoi_dung ([tai_khoan], [mat_khau],[ten],[sdt],[email],[dia_chi],[gioi_tinh],[ma_cv],[ma_cn],[luong]) VALUES ('"+txtTaiKhoan.getText()+"','1',N'"+txtTen.getText()+"','"+txtSoDienThoai.getText()+"','1','1','nam',N'"+ma_cv+"',N'"+ma_cn+"',40000)";
+         int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
+         String matKhauDaMaHoa = SHAHashing.getSHAHash("1");
+        String sql = "INSERT  INTO  nguoi_dung ([tai_khoan], [mat_khau],[ten],[sdt],[email],[dia_chi],[gioi_tinh],[ma_cv],[ma_cn],[luong]) VALUES ('"+txtTaiKhoan.getText()+"','"+matKhauDaMaHoa+"',N'"+txtTen.getText()+"','"+txtSoDienThoai.getText()+"','1','1','nam',N'"+ma_cv+"',N'"+ma_cn+"',40000)";
             cls.excuteQueryUpdateDB(sql);
             JOptionPane.showMessageDialog(this, "Thêm người dùng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
            LoadUserTable();
     }//GEN-LAST:event_btnThemNguoiDungMouseClicked
 
     private void btnSuaNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaNguoiDungMouseClicked
-    
+        try {
             int row = tblNguoiDung.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        int  ma_cn = cbxCCCN.get(cbxChiNanh.getSelectedIndex());
-      int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
-      String sql = "UPDATE nguoi_dung SET tai_khoan = '"+txtTaiKhoan.getText()+"', ten = N'"+txtTen.getText()+"',sdt = N'"+txtSoDienThoai.getText()+"',ma_cv = "+ma_cv+",ma_cn = "+ma_cn+"  WHERE id = '"+id+"'";
-            cls.excuteQueryUpdateDB(sql);
-            JOptionPane.showMessageDialog(this, "Chỉnh sửa người dùng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-           LoadUserTable();
+            DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel();
+            int id = (int)models.getValueAt(row, 0);
+            int  ma_cn = cbxCCCN.get(cbxChiNanh.getSelectedIndex());
+          int  ma_cv = cbxCCChucvu.get(cbxChucVu.getSelectedIndex());
+          String sql = "UPDATE nguoi_dung SET tai_khoan = '"+txtTaiKhoan.getText()+"', ten = N'"+txtTen.getText()+"',sdt = N'"+txtSoDienThoai.getText()+"',ma_cv = "+ma_cv+",ma_cn = "+ma_cn+"  WHERE id = '"+id+"'";
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Chỉnh sửa người dùng thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+               LoadUserTable();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn người dùng cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+            
     }//GEN-LAST:event_btnSuaNguoiDungMouseClicked
 
     private void btnXoaNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaNguoiDungMouseClicked
-        int row = tblNguoiDung.getSelectedRow();
+        try
+        {
+            int row = tblNguoiDung.getSelectedRow();
         
-        DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel(); 
-        String sql = "DELETE FROM nguoi_dung WHERE id = "+(int)models.getValueAt(row, 0)+"";
-        cls.excuteQueryUpdateDB(sql);
-        JOptionPane.showMessageDialog(this, "Xóa người dùng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-        LoadUserTable();
+            DefaultTableModel models = (DefaultTableModel)tblNguoiDung.getModel(); 
+            String sql = "DELETE FROM nguoi_dung WHERE id = "+(int)models.getValueAt(row, 0)+"";
+            cls.excuteQueryUpdateDB(sql);
+            JOptionPane.showMessageDialog(this, "Xóa người dùng "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            LoadUserTable();
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn người dùng cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
     }//GEN-LAST:event_btnXoaNguoiDungMouseClicked
 
     private void btnLayMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayMatKhauActionPerformed
@@ -4314,45 +4557,50 @@ public class frmTrangChu extends javax.swing.JFrame {
 
     private void btnXoaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHDActionPerformed
         // TODO add your handling code here:
-        int row = tblHoaDon.getSelectedRow();
-        DefaultTableModel models = (DefaultTableModel)tblHoaDon.getModel(); 
-        String message = "Bạn có chắc muốn xóa hóa dơn này, điều này sẽ đồng thời xóa chi tiết hóa đơn liên quan đến hóa đơn này?";
-        String tittle = "Xóa hóa đơn";
-        int result = JOptionPane.showConfirmDialog(this, message, tittle, JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String sql = "SELECT * From ct_hoa_don WHERE ma_hd="+(int)models.getValueAt(row, 0);
-            try {
-                ResultSet rs = cls.excuteQueryGetTable(sql);
-                while(rs.next())
-                {
-                    int maSP = rs.getInt("ma_sp");
-                    int soLuong = rs.getInt("so_luong");
-                    sql = "select ton_kho from san_pham where id="+maSP;
-                    rs = cls.excuteQueryGetTable(sql);
-                    int tonKho = 0;
-                    if(rs.next())
-                        tonKho = rs.getInt("ton_kho");
-                    int newTonKho = tonKho + soLuong;
-                    updateRemainingQuantity(maSP, newTonKho);
-                    sql = "DELETE FROM ct_hoa_don WHERE ma_hd = "+(int)models.getValueAt(row, 0)+"";
-                    cls.excuteQueryUpdateDB(sql);       
+        try {
+            int row = tblHoaDon.getSelectedRow();
+            DefaultTableModel models = (DefaultTableModel)tblHoaDon.getModel(); 
+            String message = "Bạn có chắc muốn xóa hóa dơn này, điều này sẽ đồng thời xóa chi tiết hóa đơn liên quan đến hóa đơn này?";
+            String tittle = "Xóa hóa đơn";
+            int result = JOptionPane.showConfirmDialog(this, message, tittle, JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String sql = "SELECT * From ct_hoa_don WHERE ma_hd="+(int)models.getValueAt(row, 0);
+                try {
+                    ResultSet rs = cls.excuteQueryGetTable(sql);
+                    while(rs.next())
+                    {
+                        int maSP = rs.getInt("ma_sp");
+                        int soLuong = rs.getInt("so_luong");
+                        sql = "select ton_kho from san_pham where id="+maSP;
+                        rs = cls.excuteQueryGetTable(sql);
+                        int tonKho = 0;
+                        if(rs.next())
+                            tonKho = rs.getInt("ton_kho");
+                        int newTonKho = tonKho + soLuong;
+                        updateRemainingQuantity(maSP, newTonKho);
+                        sql = "DELETE FROM ct_hoa_don WHERE ma_hd = "+(int)models.getValueAt(row, 0)+"";
+                        cls.excuteQueryUpdateDB(sql);       
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+                sql = "DELETE FROM hoa_don WHERE id = "+(int)models.getValueAt(row, 0)+"";
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Xóa hóa đơn "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                loadSP();
+                loadCTHD();
+                LoadHoaDon();
             }
-            
-            sql = "DELETE FROM hoa_don WHERE id = "+(int)models.getValueAt(row, 0)+"";
-            cls.excuteQueryUpdateDB(sql);
-            JOptionPane.showMessageDialog(this, "Xóa hóa đơn "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-            loadSP();
-            loadCTHD();
-            LoadHoaDon();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
         }
+        
     }//GEN-LAST:event_btnXoaHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
-        int row = tblSanPhamBH.rowAtPoint(evt.getPoint());
+        int row = tblHoaDon.rowAtPoint(evt.getPoint());
         int ma_hd = (int)tblHoaDon.getModel().getValueAt(row, 0);
         loadCTHD(ma_hd);
         bindingValuesHD(row);
@@ -4394,25 +4642,29 @@ public class frmTrangChu extends javax.swing.JFrame {
         int nvIndex = cbNhanVien.getSelectedIndex();
         int khIndex = cbKhachHang.getSelectedIndex();
         String tenKH = (String)cbKhachHang.getSelectedItem();
-        int row = tblHoaDon.getSelectedRow();
-        DefaultTableModel models = (DefaultTableModel)tblHoaDon.getModel();
-        int id = (int)models.getValueAt(row, 0);
-        
-        if(regex.checkTTHD(txtGiamGiaHD.getText(),regex.gghdc) && regex.checkTTHD(txtTongTienHD.getText(),regex.tthdc))
-        {
-            String sql = "UPDATE hoa_don "
-                    + "SET ma_hd = '"+txtMaHoaDon.getText()+"', ma_cn = '"+cbxCCCN.get(cnIndex)+"', ma_nv = '"+listNVID.get(nvIndex)+"',"
-                    + " ma_kh =  '"+listKHID.get(khIndex)+"', ten_kh = N'"+tenKH+"',"
-                    + " giam_gia = '"+txtGiamGiaHD.getText()+"', tong_tien = '"+txtTongTienHD.getText()+"' "
-                    + "WHERE id = '"+id+"'";
-           
-            cls.excuteQueryUpdateDB(sql);
-            JOptionPane.showMessageDialog(this, "Sửa hóa đơn "+txtMaHoaDon.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-            LoadHoaDon();
-        }
-        else
-        {
-           JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        try {
+            int row = tblHoaDon.getSelectedRow();
+            DefaultTableModel models = (DefaultTableModel)tblHoaDon.getModel();
+            int id = (int)models.getValueAt(row, 0);
+
+            if(regex.checkTTHD(txtGiamGiaHD.getText(),regex.gghdc) && regex.checkTTHD(txtTongTienHD.getText(),regex.tthdc))
+            {
+                String sql = "UPDATE hoa_don "
+                        + "SET ma_hd = '"+txtMaHoaDon.getText()+"', ma_cn = '"+cbxCCCN.get(cnIndex)+"', ma_nv = '"+listNVID.get(nvIndex)+"',"
+                        + " ma_kh =  '"+listKHID.get(khIndex)+"', ten_kh = N'"+tenKH+"',"
+                        + " giam_gia = '"+txtGiamGiaHD.getText()+"', tong_tien = '"+txtTongTienHD.getText()+"' "
+                        + "WHERE id = '"+id+"'";
+
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Sửa hóa đơn "+txtMaHoaDon.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                LoadHoaDon();
+            }
+            else
+            {
+               JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
         }
     }//GEN-LAST:event_btnSuaHDActionPerformed
 
@@ -4496,112 +4748,692 @@ public class frmTrangChu extends javax.swing.JFrame {
         String tittle = "Xóa chi tiết hóa đơn";
         int result = JOptionPane.showConfirmDialog(this, message, tittle, JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            int row = tblCTHD.getSelectedRow();
-            DefaultTableModel model = (DefaultTableModel) tblCTHD.getModel();
-            int tonKho = 0;
-            int SPID = 0;
-            int HDID = 0;
-            String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
             try
             {
-                ResultSet rs = cls.excuteQueryGetTable(sql);
-                if(rs.next())
+                int row = tblCTHD.getSelectedRow();
+                DefaultTableModel model = (DefaultTableModel) tblCTHD.getModel();
+                int tonKho = 0;
+                int SPID = 0;
+                int HDID = 0;
+                String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                try
                 {
-                    tonKho = rs.getInt("ton_kho");
-                    SPID = rs.getInt("id");
+                    ResultSet rs = cls.excuteQueryGetTable(sql);
+                    if(rs.next())
+                    {
+                        tonKho = rs.getInt("ton_kho");
+                        SPID = rs.getInt("id");
+                    }
+
+                    sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
+                    rs = cls.excuteQueryGetTable(sql);
+                    if(rs.next())
+                    {
+                        HDID = rs.getInt("id");
+                    }
                 }
-                
-                sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
-                rs = cls.excuteQueryGetTable(sql);
-                if(rs.next())
+                catch(SQLException e)
                 {
-                    HDID = rs.getInt("id");
+                    e.printStackTrace();
                 }
+
+                sql = "DELETE FROM ct_hoa_don WHERE ma_hd = "+HDID+" AND ma_sp = "+SPID;
+                cls.excuteQueryUpdateDB(sql);
+                updateTotalPriceHD(HDID);
+                int newTonKho = tonKho + Integer.parseInt(txtSoLuongCTHD.getText());
+                updateRemainingQuantity(SPID, newTonKho);
+                JOptionPane.showMessageDialog(this, "Xóa chi tiết hóa đơn "+cbMaHoaDon.getSelectedItem()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                loadCTHD(HDID);
+                LoadHoaDon();
+                loadSP();
             }
-            catch(SQLException e)
+            catch(ArrayIndexOutOfBoundsException e)
             {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa đơn cần xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
             }
             
-            sql = "DELETE FROM ct_hoa_don WHERE ma_hd = "+HDID+" AND ma_sp = "+SPID;
-            cls.excuteQueryUpdateDB(sql);
-            updateTotalPriceHD(HDID);
-            int newTonKho = tonKho + Integer.parseInt(txtSoLuongCTHD.getText());
-            updateRemainingQuantity(SPID, newTonKho);
-            JOptionPane.showMessageDialog(this, "Xóa chi tiết hóa đơn "+cbMaHoaDon.getSelectedItem()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-            loadCTHD(HDID);
-            LoadHoaDon();
-            loadSP();
         }
     }//GEN-LAST:event_btnXoaCTHDActionPerformed
 
     private void btnSuaCTHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaCTHDActionPerformed
         // TODO add your handling code here:
-        String maHD = String.valueOf(listHDID.get(cbMaHoaDon.getSelectedIndex()));
-        String maSP = String.valueOf(listSPID.get(cbSanPham.getSelectedIndex()));
         int row = tblCTHD.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) tblCTHD.getModel();
-        
-        try {
-            if(regex.checkTTSP(txtSoLuongCTHD.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD.getText(),regex.giac))
+        String maHD = String.valueOf(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+        String maSP = String.valueOf(listSPID.get(cbSanPham.getSelectedIndex()));
+        if(cbMAPN.getSelectedItem().equals(model.getValueAt(row, 0)))
+        {
+            if(cbSanPhamNH.getSelectedItem().equals(model.getValueAt(row, 1)))
             {
-                int tonKho1 = 0;
-                int SPID = 0;
-                int HDID = 0;
-                String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
-                ResultSet rs = cls.excuteQueryGetTable(sql);
-                if(rs.next())
-                {
-                    tonKho1 = rs.getInt("ton_kho");
-                    SPID = rs.getInt("id");
-                }
-                sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
-                rs = cls.excuteQueryGetTable(sql);
-                if(rs.next())
-                {
-                    HDID = rs.getInt("id");
-                }
-                if(tonKho1 !=0 && tonKho !=0)
-                {
-                    if(Integer.parseInt(txtSoLuongCTHD.getText()) > tonKho)
+                try {
+                    if(regex.checkTTSP(txtSoLuongCTHD.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD.getText(),regex.giac))
                     {
-                        JOptionPane.showMessageDialog(this, "Số lượng phải nhỏ hơn "+tonKho, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                        int tonKho1 = 0;
+                        int SPID = 0;
+                        int HDID = 0;
+                        String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                        ResultSet rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            tonKho1 = rs.getInt("ton_kho");
+                            SPID = rs.getInt("id");
+                        }
+                        sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
+                        rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            HDID = rs.getInt("id");
+                        }
+                        if(tonKho1 !=0 && tonKho !=0)
+                        {
+                            if(Integer.parseInt(txtSoLuongCTHD.getText()) > tonKho)
+                            {
+                                JOptionPane.showMessageDialog(this, "Số lượng phải nhỏ hơn "+tonKho, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                            }
+                            else
+                            {
+                                double thanhTien = Integer.parseInt(txtSoLuongCTHD.getText()) * Float.parseFloat(txtDonGiaCTHD.getText());
+                                sql = "UPDATE ct_hoa_don SET ma_hd="+listHDID.get(cbMaHoaDon.getSelectedIndex())+", "
+                                        + "ma_sp="+listSPID.get(cbSanPham.getSelectedIndex())+", so_luong="+txtSoLuongCTHD.getText()+", "
+                                        + "don_gia="+txtDonGiaCTHD.getText()+", tong_tien="+thanhTien+" "
+                                        + "WHERE ma_hd="+HDID+" AND ma_sp="+SPID;
+                                cls.excuteQueryUpdateDB(sql);
+                                updateTotalPriceHD(HDID);
+                                updateTotalPriceHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                int newTonKho1 = tonKho1 + (int)model.getValueAt(row, 2);
+                                int newTonKho2 = tonKho - Integer.parseInt(txtSoLuongCTHD.getText());
+                                updateRemainingQuantity(SPID, newTonKho1);
+                                updateRemainingQuantity(listSPID.get(cbSanPham.getSelectedIndex()), newTonKho1);
+                                JOptionPane.showMessageDialog(this, "Sửa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                                loadCTHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                LoadHoaDon();
+                                loadSP();
+                            }
+                        }
+                        else
+                        {
+                            String message = "Sản phẩm đã bán hết!";
+                            JOptionPane.showMessageDialog(this, message, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
                     }
                     else
                     {
-                        double thanhTien = Integer.parseInt(txtSoLuongCTHD.getText()) * Float.parseFloat(txtDonGiaCTHD.getText());
-                        sql = "UPDATE ct_hoa_don SET ma_hd="+listHDID.get(cbMaHoaDon.getSelectedIndex())+", "
-                                + "ma_sp="+listSPID.get(cbSanPham.getSelectedIndex())+", so_luong="+txtSoLuongCTHD.getText()+", "
-                                + "don_gia="+txtDonGiaCTHD.getText()+", tong_tien="+thanhTien+" "
-                                + "WHERE ma_hd="+HDID+" AND ma_sp="+SPID;
-                        cls.excuteQueryUpdateDB(sql);
-                        updateTotalPriceHD(HDID);
-                        updateTotalPriceHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
-                        int newTonKho1 = tonKho1 + (int)model.getValueAt(row, 2);
-                        int newTonKho2 = tonKho - Integer.parseInt(txtSoLuongCTHD.getText());
-                        updateRemainingQuantity(SPID, newTonKho1);
-                        updateRemainingQuantity(listSPID.get(cbSanPham.getSelectedIndex()), newTonKho1);
-                        JOptionPane.showMessageDialog(this, "Sửa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
-                        loadCTHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
-                        LoadHoaDon();
-                        loadSP();
+                        JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa dơn cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                }
+            }
+            else
+            {
+                if(existsInDatabaseTable2("ct_hoa_don", "ma_hd", "ma_sp", maHD, maSP, 2, 2))
+                {
+                    JOptionPane.showMessageDialog(this, "Hóa đơn "+cbMaHoaDon.getSelectedItem()+" đã tồn tại sản phẩm "+cbSanPham.getSelectedItem(), "Thông báo", JOptionPane.ERROR_MESSAGE); 
                 }
                 else
                 {
-                    String message = "Sản phẩm đã bán hết!";
-                    JOptionPane.showMessageDialog(this, message, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
+                    try {
+                        if(regex.checkTTSP(txtSoLuongCTHD.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD.getText(),regex.giac))
+                        {
+                            int tonKho1 = 0;
+                            int SPID = 0;
+                            int HDID = 0;
+                            String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                            ResultSet rs = cls.excuteQueryGetTable(sql);
+                            if(rs.next())
+                            {
+                                tonKho1 = rs.getInt("ton_kho");
+                                SPID = rs.getInt("id");
+                            }
+                            sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
+                            rs = cls.excuteQueryGetTable(sql);
+                            if(rs.next())
+                            {
+                                HDID = rs.getInt("id");
+                            }
+                            if(tonKho1 !=0 && tonKho !=0)
+                            {
+                                if(Integer.parseInt(txtSoLuongCTHD.getText()) > tonKho)
+                                {
+                                    JOptionPane.showMessageDialog(this, "Số lượng phải nhỏ hơn "+tonKho, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                                }
+                                else
+                                {
+                                    double thanhTien = Integer.parseInt(txtSoLuongCTHD.getText()) * Float.parseFloat(txtDonGiaCTHD.getText());
+                                    sql = "UPDATE ct_hoa_don SET ma_hd="+listHDID.get(cbMaHoaDon.getSelectedIndex())+", "
+                                            + "ma_sp="+listSPID.get(cbSanPham.getSelectedIndex())+", so_luong="+txtSoLuongCTHD.getText()+", "
+                                            + "don_gia="+txtDonGiaCTHD.getText()+", tong_tien="+thanhTien+" "
+                                            + "WHERE ma_hd="+HDID+" AND ma_sp="+SPID;
+                                    cls.excuteQueryUpdateDB(sql);
+                                    updateTotalPriceHD(HDID);
+                                    updateTotalPriceHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                    int newTonKho1 = tonKho1 + (int)model.getValueAt(row, 2);
+                                    int newTonKho2 = tonKho - Integer.parseInt(txtSoLuongCTHD.getText());
+                                    updateRemainingQuantity(SPID, newTonKho1);
+                                    updateRemainingQuantity(listSPID.get(cbSanPham.getSelectedIndex()), newTonKho1);
+                                    JOptionPane.showMessageDialog(this, "Sửa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                                    loadCTHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                    LoadHoaDon();
+                                    loadSP();
+                                }
+                            }
+                            else
+                            {
+                                String message = "Sản phẩm đã bán hết!";
+                                JOptionPane.showMessageDialog(this, message, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                            }
 
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa dơn cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(existsInDatabaseTable2("ct_hoa_don", "ma_hd", "ma_sp", maHD, maSP, 2, 2))
+            {
+                JOptionPane.showMessageDialog(this, "Hóa đơn "+cbMaHoaDon.getSelectedItem()+" đã tồn tại sản phẩm "+cbSanPham.getSelectedItem(), "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            }
+            else
+            {
+                try {
+                    if(regex.checkTTSP(txtSoLuongCTHD.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD.getText(),regex.giac))
+                    {
+                        int tonKho1 = 0;
+                        int SPID = 0;
+                        int HDID = 0;
+                        String sql = "select id, ton_kho from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                        ResultSet rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            tonKho1 = rs.getInt("ton_kho");
+                            SPID = rs.getInt("id");
+                        }
+                        sql = "select id from hoa_don where ma_hd='"+model.getValueAt(row, 0)+"'";
+                        rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            HDID = rs.getInt("id");
+                        }
+                        if(tonKho1 !=0 && tonKho !=0)
+                        {
+                            if(Integer.parseInt(txtSoLuongCTHD.getText()) > tonKho)
+                            {
+                                JOptionPane.showMessageDialog(this, "Số lượng phải nhỏ hơn "+tonKho, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                            }
+                            else
+                            {
+                                double thanhTien = Integer.parseInt(txtSoLuongCTHD.getText()) * Float.parseFloat(txtDonGiaCTHD.getText());
+                                sql = "UPDATE ct_hoa_don SET ma_hd="+listHDID.get(cbMaHoaDon.getSelectedIndex())+", "
+                                        + "ma_sp="+listSPID.get(cbSanPham.getSelectedIndex())+", so_luong="+txtSoLuongCTHD.getText()+", "
+                                        + "don_gia="+txtDonGiaCTHD.getText()+", tong_tien="+thanhTien+" "
+                                        + "WHERE ma_hd="+HDID+" AND ma_sp="+SPID;
+                                cls.excuteQueryUpdateDB(sql);
+                                updateTotalPriceHD(HDID);
+                                updateTotalPriceHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                int newTonKho1 = tonKho1 + (int)model.getValueAt(row, 2);
+                                int newTonKho2 = tonKho - Integer.parseInt(txtSoLuongCTHD.getText());
+                                updateRemainingQuantity(SPID, newTonKho1);
+                                updateRemainingQuantity(listSPID.get(cbSanPham.getSelectedIndex()), newTonKho1);
+                                JOptionPane.showMessageDialog(this, "Sửa chi tiết hóa đơn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                                loadCTHD(listHDID.get(cbMaHoaDon.getSelectedIndex()));
+                                LoadHoaDon();
+                                loadSP();
+                            }
+                        }
+                        else
+                        {
+                            String message = "Sản phẩm đã bán hết!";
+                            JOptionPane.showMessageDialog(this, message, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết hóa dơn cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSuaCTHDActionPerformed
+
+    private void btnThemHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemHDNHActionPerformed
+        // TODO add your handling code here:
+        int cnIndex = cbChiNhanhNH.getSelectedIndex();
+        int nvIndex = cbNhanVienNH.getSelectedIndex();
+        int nccIndex = cbNCCNH.getSelectedIndex();
+        
+        if(existsInDatabaseTable("phieu_nhap", "ma_pn", txtMaPhieuNHap.getText(), 1))
+        {
+            JOptionPane.showMessageDialog(this, "Mã phiếu nhập đã tồn tại", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+        else
+        {
+            if(regex.checkTTHD(txtTongTienHD2.getText(),regex.tthdc))
+            {
+                String sql = "INSERT  INTO  phieu_nhap ([ma_pn],[ma_cn],[ma_nv],[ma_ncc],[ngay_nhap], [tong_tien]) VALUES "
+                + "('"+txtMaPhieuNHap.getText()+"','"+cbxCCCN.get(cnIndex)+"','"+listNVID.get(nvIndex)+"','"
+                +listNCCID.get(nccIndex)+"','"+getToDay()+"','"+txtTongTienHD.getText()+"')";
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Thêm phiếu nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                LoadPhieuNhap();
             }
             else
             {
                 JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
             }
+        }
+    }//GEN-LAST:event_btnThemHDNHActionPerformed
+
+    private void tblHoaDonNHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonNHMouseClicked
+        // TODO add your handling code here:
+        int row = tblHoaDonNH.rowAtPoint(evt.getPoint());
+        int ma_pn = (int)tblHoaDonNH.getModel().getValueAt(row, 0);
+        loadCTPN(ma_pn);
+        bindingValuesPN(row);
+    }//GEN-LAST:event_tblHoaDonNHMouseClicked
+
+    private void btnXoaHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHDNHActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            int row = tblHoaDonNH.getSelectedRow();
+            DefaultTableModel models = (DefaultTableModel)tblHoaDonNH.getModel(); 
+            String message = "Bạn có chắc muốn xóa phiếu nhập này, điều này sẽ đồng thời xóa chi tiết phiếu nhập liên quan đến phiếu nhập này?";
+            String tittle = "Xóa phiếu nhập";
+            int result = JOptionPane.showConfirmDialog(this, message, tittle, JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String sql = "SELECT * From ct_phieu_nhap WHERE ma_pn="+(int)models.getValueAt(row, 0);
+                try {
+                    ResultSet rs = cls.excuteQueryGetTable(sql);
+                    while(rs.next())
+                    {
+                        int maSP = rs.getInt("ma_sp");
+                        int soLuong = rs.getInt("so_luong_nhap");
+                        sql = "select ton_kho from san_pham where id="+maSP;
+                        rs = cls.excuteQueryGetTable(sql);
+                        int tonKho = 0;
+                        if(rs.next())
+                            tonKho = rs.getInt("ton_kho");
+                        int newTonKho = tonKho - soLuong;
+                        updateRemainingQuantity(maSP, newTonKho);
+                        sql = "DELETE FROM ct_phieu_nhap WHERE ma_pn = "+(int)models.getValueAt(row, 0)+"";
+                        cls.excuteQueryUpdateDB(sql);       
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                sql = "DELETE FROM phieu_nhap WHERE id = "+(int)models.getValueAt(row, 0)+"";
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Xóa phiếu nhập "+models.getValueAt(row, 1)+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                loadSP();
+                loadCTPN();
+                LoadPhieuNhap();
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập cần xóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnXoaHDNHActionPerformed
+
+    private void btnSuaHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHDNHActionPerformed
+        // TODO add your handling code here:
+        int cnIndex = cbChiNhanhNH.getSelectedIndex();
+        int nvIndex = cbNhanVienNH.getSelectedIndex();
+        int nccIndex = cbNCCNH.getSelectedIndex();
+        
+        try {
+            int row = tblHoaDonNH.getSelectedRow();
+            DefaultTableModel models = (DefaultTableModel)tblHoaDonNH.getModel();
+            int id = (int)models.getValueAt(row, 0);
+
+            if(regex.checkTTHD(txtTongTienHD2.getText(),regex.tthdc))
+            {
+                String sql = "UPDATE phieu_nhap "
+                        + "SET ma_pn = '"+txtMaPhieuNHap.getText()+"', ma_cn = '"+cbxCCCN.get(cnIndex)+"', ma_nv = '"+listNVID.get(nvIndex)+"',"
+                        + " ma_ncc =  '"+listNCCID.get(nccIndex)+"',"
+                        + " tong_tien = '"+txtTongTienHD2.getText()+"' "
+                        + "WHERE id = '"+id+"'";
+
+                cls.excuteQueryUpdateDB(sql);
+                JOptionPane.showMessageDialog(this, "Sửa phiếu nhập "+txtMaPhieuNHap.getText()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                LoadPhieuNhap();
+            }
+            else
+            {
+               JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu nhập cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+    }//GEN-LAST:event_btnSuaHDNHActionPerformed
+
+    private void btnThemCTHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCTHDNHActionPerformed
+        // TODO add your handling code here:
+        String maPN = String.valueOf(listPNID.get(cbMAPN.getSelectedIndex()));
+        String maSP = String.valueOf(listSPID.get(cbSanPhamNH.getSelectedIndex()));
+        if(existsInDatabaseTable2("ct_phieu_nhap", "ma_pn", "ma_sp", maPN, maSP, 2, 2))
+        {
+            JOptionPane.showMessageDialog(this, "Phiếu nhập "+cbMAPN.getSelectedItem()+" đã tồn tại sản phẩm "+cbSanPhamNH.getSelectedItem(), "Thông báo", JOptionPane.ERROR_MESSAGE); 
+        }
+        else
+        {
+            try {
+                if(regex.checkTTSP(txtSoLuongCTHD2.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD2.getText(),regex.giac))
+                {
+                    int tonKho = 0;
+                    int soLuong = 0;
+                    String sql = "select ton_kho, so_luong from san_pham where id="+listSPID.get(cbSanPham.getSelectedIndex());
+                    ResultSet rs = cls.excuteQueryGetTable(sql);
+                    if(rs.next())
+                    {
+                        tonKho = rs.getInt("ton_kho");
+                        soLuong = rs.getInt("so_luong");
+                    }
+                    
+                    double thanhTien = Integer.parseInt(txtSoLuongCTHD2.getText()) * Float.parseFloat(txtDonGiaCTHD2.getText());
+                    sql = "INSERT  INTO  ct_phieu_nhap ([ma_pn], [ma_sp], [so_luong_nhap], [don_gia], [tong_tien]) VALUES "
+                    + "('"+listPNID.get(cbMAPN.getSelectedIndex())+"','"+listSPID.get(cbSanPhamNH.getSelectedIndex())+"','"+txtSoLuongCTHD2.getText()+"','"
+                    +txtDonGiaCTHD2.getText()+"','"+thanhTien+"')";
+                    cls.excuteQueryUpdateDB(sql);
+                    updateTotalPricePN(listPNID.get(cbMAPN.getSelectedIndex()));
+                    int newTonKho = tonKho + Integer.parseInt(txtSoLuongCTHD2.getText());
+                    int newSoLuong = soLuong + Integer.parseInt(txtSoLuongCTHD2.getText());
+                    updateSP(listSPID.get(cbSanPhamNH.getSelectedIndex()), newTonKho, newSoLuong, Float.parseFloat(txtDonGiaCTHD2.getText()));
+                    JOptionPane.showMessageDialog(this, "Thêm chi tiết phiếu nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                    loadCTPN(listPNID.get(cbMAPN.getSelectedIndex()));
+                    LoadPhieuNhap();
+                    loadSP();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnThemCTHDNHActionPerformed
+
+    private void btnXoaCTHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaCTHDNHActionPerformed
+        // TODO add your handling code here:
+        String message = "Bạn có chắc muốn xóa chi tiết phiếu nhập này?";
+        String tittle = "Xóa chi tiết phiếu nhập";
+        int result = JOptionPane.showConfirmDialog(this, message, tittle, JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            try
+            {
+                int row = tblCTHDNH.getSelectedRow();
+                DefaultTableModel model = (DefaultTableModel) tblCTHDNH.getModel();
+                int tonKho = 0;
+                int soLuong = 0;
+                int SPID = 0;
+                int PNID = 0;
+                String sql = "select id, ton_kho, so_luong from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                ResultSet rs = cls.excuteQueryGetTable(sql);
+                try
+                {
+                    if(rs.next())
+                    {
+                        tonKho = rs.getInt("ton_kho");
+                        SPID = rs.getInt("id");
+                        soLuong = rs.getInt("so_luong");
+                    }
+
+                    sql = "select id from phieu_nhap where ma_pn='"+model.getValueAt(row, 0)+"'";
+                    rs = cls.excuteQueryGetTable(sql);
+                    if(rs.next())
+                    {
+                        PNID = rs.getInt("id");
+                    }
+                }
+                catch(SQLException e)
+                {
+                    e.printStackTrace();
+                }
+
+                sql = "DELETE FROM ct_phieu_nhap WHERE ma_pn = "+PNID+" AND ma_sp = "+SPID;
+                cls.excuteQueryUpdateDB(sql);
+                updateTotalPricePN(PNID);
+                int newTonKho = tonKho - Integer.parseInt(txtSoLuongCTHD2.getText());
+                int newSoLuong = soLuong - Integer.parseInt(txtSoLuongCTHD2.getText());
+                updateSP(SPID, newTonKho, newSoLuong, Float.parseFloat(txtDonGiaCTHD2.getText()));
+                JOptionPane.showMessageDialog(this, "Xóa chi tiết phiếu nhập "+cbMAPN.getSelectedItem()+" thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                loadCTPN(PNID);
+                LoadPhieuNhap();
+                loadSP();
+            }
+            catch(ArrayIndexOutOfBoundsException e)
+            {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết phiếu nhập cần xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+            }
+        }
+    }//GEN-LAST:event_btnXoaCTHDNHActionPerformed
+
+    private void tblCTHDNHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTHDNHMouseClicked
+        // TODO add your handling code here:
+        int row = tblCTHDNH.rowAtPoint(evt.getPoint());
+        bindingValuesCTPN(row);
+    }//GEN-LAST:event_tblCTHDNHMouseClicked
+
+    private void btnSuaCTHDNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaCTHDNHActionPerformed
+        // TODO add your handling code here:
+        int row = tblCTHDNH.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tblCTHDNH.getModel();
+        String maPN = String.valueOf(listPNID.get(cbMAPN.getSelectedIndex()));
+        String maSP = String.valueOf(listSPID.get(cbSanPhamNH.getSelectedIndex()));
+        if(cbMAPN.getSelectedItem().equals(model.getValueAt(row, 0)))
+        {
+            if(cbSanPhamNH.getSelectedItem().equals(model.getValueAt(row, 1)))
+            {
+                try {
+                    if(regex.checkTTSP(txtSoLuongCTHD2.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD2.getText(),regex.giac))
+                    {
+                        int tonKho1 = 0;
+                        int soLuong1 = 0;
+                        int SPID = 0;
+                        int PNID = 0;
+                        String sql = "select id, ton_kho, so_luong from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                        ResultSet rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            tonKho1 = rs.getInt("ton_kho");
+                            soLuong1 = rs.getInt("so_luong");
+                            SPID = rs.getInt("id");
+                        }
+                        sql = "select id from phieu_nhap where ma_pn='"+model.getValueAt(row, 0)+"'";
+                        rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            PNID = rs.getInt("id");
+                        }
+
+                        double thanhTien = Integer.parseInt(txtSoLuongCTHD2.getText()) * Float.parseFloat(txtDonGiaCTHD2.getText());
+                        sql = "UPDATE ct_phieu_nhap SET ma_pn="+listPNID.get(cbMAPN.getSelectedIndex())+", "
+                                + "ma_sp="+listSPID.get(cbSanPhamNH.getSelectedIndex())+", so_luong_nhap="+txtSoLuongCTHD2.getText()+", "
+                                + "don_gia="+txtDonGiaCTHD2.getText()+", tong_tien="+thanhTien+" "
+                                + "WHERE ma_pn="+PNID+" AND ma_sp="+SPID;
+                        cls.excuteQueryUpdateDB(sql);
+                        updateTotalPricePN(PNID);
+                        updateTotalPricePN(listPNID.get(cbMAPN.getSelectedIndex()));
+                        int newTonKho1 = tonKho1 - (int)model.getValueAt(row, 2);
+                        int newTonKho2 = tonKho + Integer.parseInt(txtSoLuongCTHD2.getText());
+                        int newSoLuong1 = soLuong1 - (int)model.getValueAt(row, 2);
+                        int newSoLuong2 = soLuong + Integer.parseInt(txtSoLuongCTHD2.getText());
+                        updateSP1(SPID, newTonKho1, newSoLuong1);
+                        updateSP(listSPID.get(cbSanPhamNH.getSelectedIndex()), newTonKho2, newSoLuong2, Float.parseFloat(txtDonGiaCTHD2.getText()));
+                        JOptionPane.showMessageDialog(this, "Sửa chi tiết phiếu nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                        loadCTPN(listPNID.get(cbMAPN.getSelectedIndex()));
+                        LoadPhieuNhap();
+                        loadSP();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                catch (ArrayIndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết phiếu nhập cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                } 
+            }
+            else
+            {
+                if(existsInDatabaseTable2("ct_phieu_nhap", "ma_pn", "ma_sp", maPN, maSP, 2, 2))
+                {
+                    JOptionPane.showMessageDialog(this, "Phiếu nhập "+cbMAPN.getSelectedItem()+" đã tồn tại sản phẩm "+cbSanPhamNH.getSelectedItem(), "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                }
+                else
+                {
+                    try {
+                        if(regex.checkTTSP(txtSoLuongCTHD2.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD2.getText(),regex.giac))
+                        {
+                            int tonKho1 = 0;
+                            int soLuong1 = 0;
+                            int SPID = 0;
+                            int PNID = 0;
+                            String sql = "select id, ton_kho, so_luong from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                            ResultSet rs = cls.excuteQueryGetTable(sql);
+                            if(rs.next())
+                            {
+                                tonKho1 = rs.getInt("ton_kho");
+                                soLuong1 = rs.getInt("so_luong");
+                                SPID = rs.getInt("id");
+                            }
+                            sql = "select id from phieu_nhap where ma_pn='"+model.getValueAt(row, 0)+"'";
+                            rs = cls.excuteQueryGetTable(sql);
+                            if(rs.next())
+                            {
+                                PNID = rs.getInt("id");
+                            }
+
+                            double thanhTien = Integer.parseInt(txtSoLuongCTHD2.getText()) * Float.parseFloat(txtDonGiaCTHD2.getText());
+                            sql = "UPDATE ct_phieu_nhap SET ma_pn="+listPNID.get(cbMAPN.getSelectedIndex())+", "
+                                    + "ma_sp="+listSPID.get(cbSanPhamNH.getSelectedIndex())+", so_luong_nhap="+txtSoLuongCTHD2.getText()+", "
+                                    + "don_gia="+txtDonGiaCTHD2.getText()+", tong_tien="+thanhTien+" "
+                                    + "WHERE ma_pn="+PNID+" AND ma_sp="+SPID;
+                            cls.excuteQueryUpdateDB(sql);
+                            updateTotalPricePN(PNID);
+                            updateTotalPricePN(listPNID.get(cbMAPN.getSelectedIndex()));
+                            int newTonKho1 = tonKho1 - (int)model.getValueAt(row, 2);
+                            int newTonKho2 = tonKho + Integer.parseInt(txtSoLuongCTHD2.getText());
+                            int newSoLuong1 = soLuong1 - (int)model.getValueAt(row, 2);
+                            int newSoLuong2 = soLuong + Integer.parseInt(txtSoLuongCTHD2.getText());
+                            updateSP1(SPID, newTonKho1, newSoLuong1);
+                            updateSP(listSPID.get(cbSanPhamNH.getSelectedIndex()), newTonKho2, newSoLuong2, Float.parseFloat(txtDonGiaCTHD2.getText()));
+                            JOptionPane.showMessageDialog(this, "Sửa chi tiết phiếu nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                            loadCTPN(listPNID.get(cbMAPN.getSelectedIndex()));
+                            LoadPhieuNhap();
+                            loadSP();
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết phiếu nhập cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                    } 
+                }
+            }
+        }
+        else
+        {
+            if(existsInDatabaseTable2("ct_phieu_nhap", "ma_pn", "ma_sp", maPN, maSP, 2, 2))
+            {
+                JOptionPane.showMessageDialog(this, "Phiếu nhập "+cbMAPN.getSelectedItem()+" đã tồn tại sản phẩm "+cbSanPhamNH.getSelectedItem(), "Thông báo", JOptionPane.ERROR_MESSAGE); 
+            }
+            else
+            {
+                try {
+                    if(regex.checkTTSP(txtSoLuongCTHD2.getText(),regex.slc) && regex.checkTTSP(txtDonGiaCTHD2.getText(),regex.giac))
+                    {
+                        int tonKho1 = 0;
+                        int soLuong1 = 0;
+                        int SPID = 0;
+                        int PNID = 0;
+                        String sql = "select id, ton_kho, so_luong from san_pham where ten_sp=N'"+model.getValueAt(row, 1)+"'";
+                        ResultSet rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            tonKho1 = rs.getInt("ton_kho");
+                            soLuong1 = rs.getInt("so_luong");
+                            SPID = rs.getInt("id");
+                        }
+                        sql = "select id from phieu_nhap where ma_pn='"+model.getValueAt(row, 0)+"'";
+                        rs = cls.excuteQueryGetTable(sql);
+                        if(rs.next())
+                        {
+                            PNID = rs.getInt("id");
+                        }
+
+                        double thanhTien = Integer.parseInt(txtSoLuongCTHD2.getText()) * Float.parseFloat(txtDonGiaCTHD2.getText());
+                        sql = "UPDATE ct_phieu_nhap SET ma_pn="+listPNID.get(cbMAPN.getSelectedIndex())+", "
+                                + "ma_sp="+listSPID.get(cbSanPhamNH.getSelectedIndex())+", so_luong_nhap="+txtSoLuongCTHD2.getText()+", "
+                                + "don_gia="+txtDonGiaCTHD2.getText()+", tong_tien="+thanhTien+" "
+                                + "WHERE ma_pn="+PNID+" AND ma_sp="+SPID;
+                        cls.excuteQueryUpdateDB(sql);
+                        updateTotalPricePN(PNID);
+                        updateTotalPricePN(listPNID.get(cbMAPN.getSelectedIndex()));
+                        int newTonKho1 = tonKho1 - (int)model.getValueAt(row, 2);
+                        int newTonKho2 = tonKho + Integer.parseInt(txtSoLuongCTHD2.getText());
+                        int newSoLuong1 = soLuong1 - (int)model.getValueAt(row, 2);
+                        int newSoLuong2 = soLuong + Integer.parseInt(txtSoLuongCTHD2.getText());
+                        updateSP1(SPID, newTonKho1, newSoLuong1);
+                        updateSP(listSPID.get(cbSanPhamNH.getSelectedIndex()), newTonKho2, newSoLuong2, Float.parseFloat(txtDonGiaCTHD2.getText()));
+                        JOptionPane.showMessageDialog(this, "Sửa chi tiết phiếu nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE); 
+                        loadCTPN(listPNID.get(cbMAPN.getSelectedIndex()));
+                        LoadPhieuNhap();
+                        loadSP();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, regex.Mess, "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                catch (ArrayIndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn chi tiết phiếu nhập cần sửa", "Thông báo", JOptionPane.ERROR_MESSAGE); 
+                } 
+            }
+        }
+    }//GEN-LAST:event_btnSuaCTHDNHActionPerformed
+
+    private void cbSanPhamNHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSanPhamNHActionPerformed
+        // TODO add your handling code here:
+        String sql = "select ton_kho, so_luong from san_pham where id="+listSPID.get(cbSanPham.getSelectedIndex())+"";
+        ResultSet rs = cls.excuteQueryGetTable(sql);
+        try {
+            if(rs.next())
+            {
+                soLuong = rs.getInt("so_luong");
+                tonKho = rs.getInt("ton_kho");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_btnSuaCTHDActionPerformed
+    }//GEN-LAST:event_cbSanPhamNHActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4691,10 +5523,15 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JButton btnXuatNCC;
     private javax.swing.JButton btnXuatNguoiDung;
     private javax.swing.JComboBox<String> cbChiNhanh;
+    private javax.swing.JComboBox<String> cbChiNhanhNH;
     private javax.swing.JComboBox<String> cbKhachHang;
+    private javax.swing.JComboBox<String> cbMAPN;
     private javax.swing.JComboBox<String> cbMaHoaDon;
+    private javax.swing.JComboBox<String> cbNCCNH;
     private javax.swing.JComboBox<String> cbNhanVien;
+    private javax.swing.JComboBox<String> cbNhanVienNH;
     private javax.swing.JComboBox<String> cbSanPham;
+    private javax.swing.JComboBox<String> cbSanPhamNH;
     private javax.swing.JComboBox<String> cbxChiNanh;
     private javax.swing.JComboBox<String> cbxChiNanhBC;
     private javax.swing.JComboBox<String> cbxChiNanhBC1;
@@ -4771,12 +5608,10 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
-    private javax.swing.JLabel jLabel93;
     private javax.swing.JLabel jLabel94;
     private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
     private javax.swing.JLabel jLabel97;
-    private javax.swing.JLabel jLabel98;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -4850,7 +5685,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTable tblSanPhamBH;
     private java.awt.TextArea textAreaMoTa;
-    private javax.swing.JTextField txtChiNhanhNH;
     private javax.swing.JTextField txtDenNgayBCBH;
     private javax.swing.JTextField txtDenNgayBCNH;
     private javax.swing.JTextField txtDiaChiChiNhanh;
@@ -4866,20 +5700,16 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtGiamGiaHD;
     private javax.swing.JTextField txtKichThuoc;
-    private javax.swing.JTextField txtMaCTHD2;
     private javax.swing.JTextField txtMaChiNhanh;
     private javax.swing.JTextField txtMaDanhMuc;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaKH;
-    private javax.swing.JTextField txtMaNhanVienNH;
     private javax.swing.JTextField txtMaPhieuNHap;
     private javax.swing.JTextField txtMaSP;
     private javax.swing.JTextField txtMaSP2;
     private javax.swing.JTextField txtMaSP3;
     private javax.swing.JTextField txtMaSP4;
-    private javax.swing.JTextField txtMaSPCTHD2;
     private javax.swing.JTextField txtMaSanPham;
-    private javax.swing.JTextField txtNCC;
     private javax.swing.JTextField txtNgayBan;
     private javax.swing.JTextField txtNgayLap;
     private javax.swing.JTextField txtNgayLapNH;
@@ -4892,7 +5722,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtSoLuongCTHD;
     private javax.swing.JTextField txtSoLuongCTHD2;
-    private javax.swing.JTextField txtSoLuongCTHD3;
     private javax.swing.JTextField txtSoLuongSP;
     private javax.swing.JTextField txtTaiKhoan;
     private javax.swing.JTextField txtTen;
@@ -4908,7 +5737,6 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JTextField txtTimSP;
     private javax.swing.JTextField txtTonKho;
     private javax.swing.JTextField txtTongTien;
-    private javax.swing.JTextField txtTongTienCTHDNH;
     private javax.swing.JTextField txtTongTienHD;
     private javax.swing.JTextField txtTongTienHD2;
     private javax.swing.JTextField txtTongTienMua;
