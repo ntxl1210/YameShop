@@ -52,6 +52,10 @@ public class NguoiDung {
         return taiKhoan;
     }
     
+    public String getMatKhau() {
+        return matKhau;
+    }
+    
     public void setMatKhau(String matKhauMoi) {
         matKhau = matKhauMoi;
     }

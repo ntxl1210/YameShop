@@ -13,16 +13,19 @@ import java.util.regex.Pattern;
  * @author HP
  */
 public class Regex {
-   public String Mess = "";
-   public int sdtc = 1;
-   public int emailc = 2;
-   public int namec = 3;
+    public String Mess = "";
+    public int sdtc = 1;
+    public int emailc = 2;
+    public int namec = 3;
    
-   public int slc = 1;
-   public int giac = 2;
+    public int slc = 1;
+    public int giac = 2;
    
-   public int slspbhc = 1;
-   public int ggbh = 2;
+    public int slspbhc = 1;
+    public int ggbh = 2;
+   
+    public int gghdc = 1;
+    public int tthdc = 2;
    
     
     public boolean checkTTKH(String text,int type)
@@ -74,12 +77,20 @@ public class Regex {
         
     }
     
-    public boolean checkSLSPBH(String text,int type, int tonKho)
+    public boolean checkTTSPBH(String text,int type)
     {
         if(type == this.slspbhc)
         {
-            this.Mess = "Số lượng chỉ có thể là ký tự số!"; 
+            this.Mess = "Số lượng chỉ có thể là số!"; 
             Pattern pattern = Pattern.compile("^[0-9]*$");
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        }
+        
+        if(type == this.ggbh)
+        {
+            this.Mess = "Giảm giá chỉ có thể từ 0 đến 100!"; 
+            Pattern pattern = Pattern.compile("^([0-9][0-9]{0,1}|100)$");
             Matcher matcher = pattern.matcher(text);
             return matcher.matches();
         }
@@ -87,12 +98,41 @@ public class Regex {
         
     }
     
-    public boolean checkGGBH(String text,int type)
+    public boolean checkTTHD(String text,int type)
     {
-        if(type == this.ggbh)
+        if(type == this.gghdc)
         {
             this.Mess = "Giảm giá chỉ có thể từ 0 đến 100!"; 
-            Pattern pattern = Pattern.compile("^([0-9][0-9]{0,1}|100)$");
+            Pattern pattern = Pattern.compile("^(([0-9]{0,2}){1}(\\.[0-9]{0,2})|100)$");
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        }
+        
+        if(type == this.tthdc)
+        {
+            this.Mess = "Tổng tiền chỉ có thể là số!"; 
+            Pattern pattern = Pattern.compile("^([0-9]*[.])?[0-9]+$");
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        }
+        return false;
+        
+    }
+    
+    public boolean checkTTCTHD(String text,int type)
+    {
+        if(type == this.gghdc)
+        {
+            this.Mess = "Giảm giá chỉ có thể từ 0 đến 100!"; 
+            Pattern pattern = Pattern.compile("^(([0-9]{0,2}){1}(\\.[0-9]{0,2})|100)$");
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        }
+        
+        if(type == this.tthdc)
+        {
+            this.Mess = "Tổng tiền chỉ có thể là số!"; 
+            Pattern pattern = Pattern.compile("^([0-9]*[.])?[0-9]+$");
             Matcher matcher = pattern.matcher(text);
             return matcher.matches();
         }
