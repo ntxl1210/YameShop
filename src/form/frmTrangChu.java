@@ -942,6 +942,10 @@ public class frmTrangChu extends javax.swing.JFrame {
         jPanel20 = new javax.swing.JPanel();
         jLabel68 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
         jTabbedPaneQLNguoiDung = new javax.swing.JTabbedPane();
         jPanelNguoiDung = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -1238,7 +1242,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1256, Short.MAX_VALUE)
+            .addGap(0, 1316, Short.MAX_VALUE)
             .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel16Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1256,7 +1260,7 @@ public class frmTrangChu extends javax.swing.JFrame {
         );
 
         jPanel15.add(jPanel16);
-        jPanel16.setBounds(10, 10, 1260, 40);
+        jPanel16.setBounds(10, 10, 1320, 40);
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -1275,23 +1279,56 @@ public class frmTrangChu extends javax.swing.JFrame {
         jLabel68.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bgmall.png"))); // NOI18N
         jLabel68.setText("jLabel68");
         jPanel15.add(jLabel68);
-        jLabel68.setBounds(15, 55, 870, 440);
+        jLabel68.setBounds(15, 55, 890, 440);
 
-        jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin liên hệ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18), new java.awt.Color(0, 153, 255))); // NOI18N
+        jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin liên hệ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18), new java.awt.Color(0, 102, 204))); // NOI18N
+
+        jLabel55.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel55.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel55.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel55.setText("Môn: Lập trình Java");
+
+        jLabel63.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel63.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel63.setText("Lớp: 16DTHA3");
+
+        jLabel71.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel71.setText("Nhóm thực hiện: 8");
+
+        jLabel72.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel72.setText("GVHD: Ths. Nguyễn Thị Anh Thư");
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel55)
+                    .addComponent(jLabel71)
+                    .addComponent(jLabel63)
+                    .addComponent(jLabel72))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 399, Short.MAX_VALUE)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel55)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel72)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel71)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel63)
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
         jPanel15.add(jPanel21);
-        jPanel21.setBounds(900, 60, 360, 430);
+        jPanel21.setBounds(920, 60, 410, 440);
 
         jTabbedPaneTrangChu.addTab("Trang chủ", jPanel15);
 
@@ -1408,7 +1445,7 @@ public class frmTrangChu extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách người dùng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 102, 204))); // NOI18N
@@ -5642,6 +5679,7 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
@@ -5650,6 +5688,7 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
@@ -5658,6 +5697,8 @@ public class frmTrangChu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
